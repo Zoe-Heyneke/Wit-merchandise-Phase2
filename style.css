@@ -1,0 +1,268 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #030ba6;
+  color: white;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background-color: #030039;
+}
+
+nav {
+  margin-top: 3rem;
+}
+
+nav a {
+  margin-left: 1.5rem;
+  color: #05f2f2;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.hero-section {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.btn-shop {
+  background-color: #e5cf67;
+  color: #030039;
+  padding: 1rem 2rem;
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.btn-shop :hover{
+  background-color: #fafae6;
+}
+
+#how-it-works {
+  background-color: white;
+  color: #030ba6;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-yellow {
+  font-size: 2.5rem;
+  color: #e5cf67;
+  margin-bottom: 0.5rem;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.step {
+  width: 180px;
+  padding: 1rem;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.product-card {
+  background-color: white;
+  border: 2px solid #030ba6;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.product-card h3{
+  color: #030039;
+}
+
+.product-card p{
+  color: #030ba6;
+}
+
+.product-card img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.product-card .price {
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.customize-options {
+  margin-top: 1rem;
+  background-color:#fafae6;
+  padding: 1rem;
+  border-radius: 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.add-to-cart-btn,
+.customize-btn {
+  margin-top: 0.5rem;
+  background-color: #030ba6;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.add-to-cart-btn:hover,
+.customize-btn:hover {
+  background-color: #05f2f2;
+  color: #030039;
+}
+
+/* Optional: fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scaleY(0.95); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+
+.hero {
+  text-align: center;
+  background-color: #030ba6;
+  color: white;
+  padding: 3rem 1rem;
+}
+
+.upload-design {
+  background-color: #fafae6;
+  padding: 2rem;
+  text-align: center;
+}
+
+.upload-design h2{
+  color: #030ba6;
+}
+
+.upload-design form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.upload-design input,
+.upload-design textarea,
+.upload-design button {
+  padding: 0.7rem;
+  border: 2px solid #030ba6;
+  border-radius: 5px;
+  font-family: 'Poppins';
+}
+
+.upload-design button {
+  background-color: #030ba6;
+  color: white;
+  font-weight: bold;
+}
+
+.inspired-gallery {
+  padding: 2rem;
+}
+
+.design-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.design-card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.design-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.design-card button {
+  margin-top: 0.5rem;
+  background-color: #030039;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+footer {
+  background-color: #030039;
+  color: #fafae6;
+  padding: 2rem;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.footer-left,
+.footer-links,
+.footer-contact {
+  flex: 1 1 200px;
+}
+
+footer h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.footer-links a {
+  display: block;
+  color: #05f2f2;
+  text-decoration: none;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+footer .logo {
+  height: 50px;
+  margin-bottom: 1rem;
+}
+
+.footer-contact p,
+.footer-left p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+

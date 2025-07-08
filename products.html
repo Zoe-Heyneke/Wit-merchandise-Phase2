@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products - Women in Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <a href="index.html">
+        <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+    </a>
+    <nav>
+      <a href="index.html#how-it-works">How it Works</a>
+      <a href="products.html">Products</a>
+      <a href="inspired.html">Get Inspired</a>
+      <a href="cart.html">Cart</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Product Catalog</h1>
+    <div class="product-controls">
+      <input type="text" id="searchInput" placeholder="Search products...">
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+        <option value="shirts">T-Shirts</option>
+        <option value="hoodies">Hoodies</option>
+        <option value="accessories">Accessories</option>
+      </select>
+    </div>
+    <div id="productList" class="product-list">
+      <div class="product-card">
+        <img src="images/t-shrt.png" alt="Hoodie">
+        <h3>T-shirt</h3>
+        <p>100% Cotton, Unisex fit</p>
+        <p class="price">R150</p>
+        <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
+
+        <div class="customize-options" style="display: none;">
+          <label for="size">Size:</label>
+          <select class="size-select">
+            <option value="">Select size</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+
+          <label for="color">Color:</label>
+          <select class="color-select">
+            <option value="">Select color</option>
+            <option value="Red">Red</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Blue">Blue</option>
+            <option value="Pink">Pink</option>
+          </select>
+
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="images/t-shrt.png" alt="Hoodie">
+        <h3>T-shirt</h3>
+        <p>100% Cotton, Unisex fit</p>
+        <p class="price">R150</p>
+        <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
+
+        <div class="customize-options" style="display: none;">
+          <label for="size">Size:</label>
+          <select class="size-select">
+            <option value="">Select size</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+
+          <label for="color">Color:</label>
+          <select class="color-select">
+            <option value="">Select color</option>
+            <option value="Red">Red</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Blue">Blue</option>
+            <option value="Pink">Pink</option>
+          </select>
+
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <img src="images/t-shrt.png" alt="Hoodie">
+        <h3>T-shirt</h3>
+        <p>100% Cotton, Unisex fit</p>
+        <p class="price">R150</p>
+        <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
+
+        <div class="customize-options" style="display: none;">
+          <label for="size">Size:</label>
+          <select class="size-select">
+            <option value="">Select size</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+
+          <label for="color">Color:</label>
+          <select class="color-select">
+            <option value="">Select color</option>
+            <option value="Red">Red</option>
+            <option value="White">White</option>
+            <option value="Black">Black</option>
+            <option value="Blue">Blue</option>
+            <option value="Pink">Pink</option>
+          </select>
+
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+            <a href="index.html">
+                <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+            </a>
+            <p>Empowering women in technology with confidence and excellence.​</p>
+            </div>
+
+            <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="index.html#how-it-works">How it Works</a>
+            <a href="products.html">Products</a>
+            <a href="inspired.html">Get Inspired</a>
+            <a href="cart.html">Cart</a>
+            <a href="profile.html">Profile</a>
+            </div>
+
+            <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>Email: info@womenintech.org.za</p>
+            <p>Phone: +27 </p>
+            <p>Address: South Africa</p>
+            </div>
+        </div>
+    </footer>
+
+  <script src="js/products.js"></script>
+</body>
+</html>

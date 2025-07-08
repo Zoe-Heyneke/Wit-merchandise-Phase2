@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Get Inspired - Women in Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">
+        <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+    </a>
+    <nav>
+      <a href="index.html#how-it-works">How it Works</a>
+      <a href="products.html">Products</a>
+      <a href="inspired.html">Get Inspired</a>
+      <a href="cart.html">Cart</a>
+      <a href="profile.html">Profile</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Get Inspired</h1>
+      <p>See what other Women in Tech are creating – and make it your own!</p>
+    </section>
+
+    <section class="upload-design">
+      <h2>Upload Your Design</h2>
+      <form id="designForm">
+        <input type="text" id="designName" placeholder="Design Title" required>
+        <textarea id="designDescription" placeholder="Tell us about your design..." required></textarea>
+        <input type="file" id="designImage" accept="image/*" required>
+        <button type="submit">Submit Design</button>
+      </form>
+    </section>
+
+    <section class="inspired-gallery">
+      <h2>Community Designs</h2>
+      <div id="designGallery" class="design-grid"></div>
+    </section>
+  </main>
+
+  <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+            <a href="index.html">
+                <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+            </a>
+            <p>Empowering women in technology with confidence and excellence.​</p>
+            </div>
+
+            <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="index.html#how-it-works">How it Works</a>
+            <a href="products.html">Products</a>
+            <a href="inspired.html">Get Inspired</a>
+            <a href="cart.html">Cart</a>
+            <a href="profile.html">Profile</a>
+            </div>
+
+            <div class="footer-contact">
+            <h3>Contact Us</h3>
+            <p>Email: info@womenintech.org.za</p>
+            <p>Phone: +27 </p>
+            <p>Address: South Africa</p>
+            </div>
+        </div>
+    </footer>
+
+  <script src="js/inspired.js"></script>
+</body>
+</html>
