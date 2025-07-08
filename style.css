@@ -1,8 +1,8 @@
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
-  background-color: #030ba6;
-  color: white;
+  background-color: #fafae6;;
+  color: #030ba6;
 }
 
 header {
@@ -18,8 +18,9 @@ nav {
 
 nav a {
   margin-left: 1.5rem;
-  color: #05f2f2;
+  color:  #05f2f2;
   text-decoration: none;
+  
   font-weight: bold;
   font-size: 1.2rem;
 }
@@ -30,12 +31,32 @@ nav a:hover {
 
 .hero-section {
   text-align: center;
-  padding: 4rem 2rem;
+   margin-left: auto;
+  margin-right: auto;
+ max-width: 1820px;
+  padding-left: var(--grid-margin);
+  padding-right: var(--grid-margin);
+    width: 100%;
+  /*padding: 4rem 2rem;*/
+
+}
+
+
+.btn-shop {
+  margin-top: 0.5rem;
+  background-color: white;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  
 }
 
 .btn-shop {
-  background-color: #e5cf67;
-  color: #030039;
+  background-color:#030ba6;
+  color:white;
   padding: 1rem 2rem;
   display: inline-block;
   margin-top: 1rem;
@@ -46,6 +67,7 @@ nav a:hover {
 .btn-shop :hover{
   background-color: #fafae6;
 }
+
 
 #how-it-works {
   background-color: white;
@@ -73,6 +95,7 @@ nav a:hover {
   width: 180px;
   padding: 1rem;
 }
+
 
 .product-list {
   display: grid;
