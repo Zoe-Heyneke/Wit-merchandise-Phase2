@@ -118,9 +118,8 @@ nav a:hover {
   letter-spacing: 2px;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 1.5s ease-out forwards;
-  animation-delay: 1s;
-  
+  animation: fadeInUp 0.5s ease-out forwards;
+  animation-delay: 0.2s;
 }
 
 /* Keyframes */
@@ -134,6 +133,53 @@ nav a:hover {
     transform: translateY(20px);
   }
 }
+
+.popup-message {
+  display: none;
+  text-align: center;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #030039;
+  color: #fafae6;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  border: 2px solid #fafae6;
+  box-shadow: 0 4px 12px #05f2f2;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeSlideDown 2s ease-in-out;
+}
+
+.popup-message a {
+  color: #e5cf67;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fafae6;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
 
 
 .product-list {
