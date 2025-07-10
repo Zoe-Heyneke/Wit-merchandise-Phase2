@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Header -->
   <header>
     <a href="index.html">
         <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
@@ -18,38 +19,84 @@
       <a href="profile.html">Profile</a>
     </nav>
   </header>
+
+  <!-- Main Content -->
   <main>
     <h1>User Profile</h1>
-    <p>Past Orders: </p>
+    <div class="user-account">
+      <h2>Sign In or Create Account</h2>
+
+      <!-- Sign Up Form -->
+      <div id="signup-section">
+        <h3>Create an Account</h3>
+        <input type="text" id="Name" placeholder="Name" required />
+         <input type="text" id="Surname" placeholder=" Surname" required />
+         <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
+        <input type="email" id="signupEmail" placeholder="Email" required />
+        <input type="password" id="signupPassword" placeholder="Password" required />
+        <input type="text" id="street" placeholder="Street " required />
+          <select id="buildingType" required>
+          <option value="">   Building Type   </option>/>
+          <option value="Apartment">Apartment</option>
+          <option value="House">House</option>
+          <option value="Complex">Complex</option>
+          <option value="Townhouse">Townhouse</option>
+           <option value="Other">Other</option>
+         </select>
+        <input type="text" id="neighborhood" placeholder="Neighborhood" required />
+        <input type="text" id="city" placeholder="City" required />
+        <input type="text" id="country" placeholder="Country" required />
+        <input type="text" id="postalCode" placeholder="Postal Code" required />
+        <button id="signupBtn">Sign Up</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <div id="signin-section">
+        <h3>Already have an account?</h3>
+        <input type="email" id="signinEmail" placeholder="Email" required />
+        <input type="password" id="signinPassword" placeholder="Password" required />
+        <button id="signinBtn">Sign In</button>
+        <p>OR</p>
+        <button id="googleSignInBtn">Sign in with Google</button>
+      </div>
+    </div>
+
+    <p id="userStatus"></p>
   </main>
 
+  <!-- Footer -->
   <footer>
-        <div class="footer-container">
-            <div class="footer-left">
-            <a href="index.html">
-                <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
-            </a>
-            <p>Empowering women in technology with confidence and excellence.​</p>
-            </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <a href="index.html">
+            <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+        </a>
+        <p>Empowering women in technology with confidence and excellence.​</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How it Works</a>
+        <a href="products.html">Products</a>
+        <a href="inspired.html">Get Inspired</a>
+        <a href="cart.html">Cart</a>
+        <a href="profile.html">Profile</a>
+      </div>
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <p>Email: info@womenintech.org.za</p>
+        <p>Phone: +27</p>
+        <p>Address: South Africa</p>
+      </div>
+    </div>
+  </footer>
 
-            <div class="footer-links">
-            <h3>Quick Links</h3>
-            <a href="index.html">Home</a>
-            <a href="index.html#how-it-works">How it Works</a>
-            <a href="products.html">Products</a>
-            <a href="inspired.html">Get Inspired</a>
-            <a href="cart.html">Cart</a>
-            <a href="profile.html">Profile</a>
-            </div>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
 
-            <div class="footer-contact">
-            <h3>Contact Us</h3>
-            <p>Email: info@womenintech.org.za</p>
-            <p>Phone: +27</p>
-            <p>Address: South Africa</p>
-            </div>
-        </div>
-    </footer>
-
+  <!-- Link to JS file -->
+  <script type="module" src="js/profile.js"></script>
 </body>
 </html>
