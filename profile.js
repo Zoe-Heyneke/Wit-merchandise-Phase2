@@ -21,16 +21,17 @@ const db = getDatabase(app);
 
 // Sign Up Logic
 document.getElementById("signupBtn").addEventListener("click", async () => {
-  const fullName = document.getElementById("fullName").value;
+  const name = document.getElementById("name").value;
+  const surname = document.getElementById("surname").value;
+  const phoneNumber = document.getElementById("phoneNumber").value;
   const email = document.getElementById("signupEmail").value;
   const password = document.getElementById("signupPassword").value;
   const street = document.getElementById("street").value;
   const buildingType = document.getElementById("buildingType").value;
   const neighborhood = document.getElementById("neighborhood").value;
   const city = document.getElementById("city").value;
-  const country = document.getElementById("country").value;
   const postalCode = document.getElementById("postalCode").value;
-  const phoneNumber = document.getElementById("phoneNumber").value;
+  
 
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -38,14 +39,14 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
 
     // Save user data to Realtime Database
     await set(ref(db, `users/${user.uid}`), {
-      fullName,
+      name,
+      surname,
       email,
       address: {
         street,
         buildingType,
         neighborhood,
         city,
-        country,
         postalCode,
       },
       phoneNumber,
