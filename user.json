@@ -1,0 +1,16 @@
+
+{
+    "name": "Kim",
+    "surname":"James",
+    "phoneNumber":"+27 123456789",
+    "signupEmail":"",
+    "signupPassword":"",
+    "address":{
+    "street":"Floyd",
+    "buildingType":["Apartment", "House","Complex","TownHouse","Office","Other"],
+    "neighborhood":"Sandton",
+    "city":"Johannesburg",
+    "postalCode":"1234"
+    }
+
+}
