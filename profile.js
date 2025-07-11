@@ -1,8 +1,11 @@
-// Import Firebase
+// Import Firebase modules
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
 
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDLmDOVDYHMrx856WTVlC-AYhEhFUQvNec",
   authDomain: "witm-d28ce.firebaseapp.com",
@@ -31,9 +34,9 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   const neighborhood = document.getElementById("neighborhood").value;
   const city = document.getElementById("city").value;
   const postalCode = document.getElementById("postalCode").value;
-  
 
   try {
+    // Create user with Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
@@ -42,17 +45,17 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
       name,
       surname,
       email,
+      phoneNumber,
       address: {
         street,
         buildingType,
         neighborhood,
         city,
-        postalCode,
-      },
-      phoneNumber,
+        postalCode
+      }
     });
 
-    document.getElementById("userStatus").innerText = "Account created successfully!";
+    document.getElementById("userStatus").innerText = "✅ Account created successfully!";
   } catch (error) {
     console.error(error);
     alert(error.message);
@@ -66,10 +69,10 @@ document.getElementById("signinBtn").addEventListener("click", async () => {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    document.getElementById("userStatus").innerText = `Signed in as ${email}`;
+    document.getElementById("userStatus").innerText = `✅ Signed in as ${email}`;
   } catch (error) {
     console.error(error);
-    alert("Invalid credentials. Try again.");
+    alert("❌ Invalid credentials. Try again.");
   }
 });
 
@@ -80,15 +83,15 @@ document.getElementById("googleSignInBtn").addEventListener("click", async () =>
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
 
-    // Save user to database if new
+    // Save user data only if new
     await set(ref(db, `users/${user.uid}`), {
       fullName: user.displayName,
-      email: user.email,
+      email: user.email
     });
 
-    document.getElementById("userStatus").innerText = `Signed in with Google: ${user.displayName}`;
+    document.getElementById("userStatus").innerText = `✅ Signed in with Google: ${user.displayName}`;
   } catch (error) {
     console.error(error);
-    alert("Google Sign-In failed.");
+    alert("❌ Google Sign-In failed.");
   }
 });
