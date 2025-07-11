@@ -15,6 +15,7 @@
         <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
     </a>
     <nav>
+      <a href="index.html#how-it-works">How it Works</a>
       <a href="products.html">Products</a>
       <a href="inspired.html">Get Inspired</a>
       <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a> 
@@ -22,39 +23,48 @@
     </nav>
   </header>
 
-  <!-- Hero Section -->
+  <div class="popup-message" id="popupMessage">
+  <p>
+    Learn more about Women in Tech! <br/>
+    <a href="http://wit-h.com/" target="_blank">Visit our main website</a>
+  </p>
+  <button class="close-btn" onclick="closePopup()">✖</button>
+</div>
+
   <main class="hero-section">
-    <h1>Women in Tech Official Merchandise Website</h1>
-    <div class="merch-preview" id="productList">
-      <!-- Products will load here dynamically -->
+    <h1 class="fadeIn">Women in Tech Official Merchandise Website</h1>
+    <div class="merch-preview">
+      <img src="images/t-shrt.png" alt="T-shirt" width="200" height="200">
+      <img src="images/hoodie.png" alt="Hoodie" width="200" height="200">
     </div>
     <a href="products.html" class="btn-shop">Shop Now</a>
   </main>
 
   <!-- How It Works Section -->
-  <section id="how-it-works">
-    <h2>How It Works</h2>
-    <p>Simple 4-step process to get your branded merchandise:</p>
-    <div class="steps">
-        <div class="step">
-        <i class="bi bi-upload icon-yellow"></i>
-        <p><strong>1. Upload Logo</strong><br>Select logo</p>
-        </div>
-        <div class="step">
-        <i class="bi bi-sliders icon-yellow"></i>
-        <p><strong>2. Customize</strong><br>Choose colors & sizes</p>
-        </div>
-        <div class="step">
-        <i class="bi bi-credit-card icon-yellow"></i>
-        <p><strong>3. Order</strong><br>Secure payment options</p>
-        </div>
-        <div class="step">
-        <i class="bi bi-truck icon-yellow"></i>
-        <p><strong>4. Delivery</strong><br>Fast nationwide delivery</p>
-        </div>
+  <section class="how-wrapper">
+    <div id="how-it-works">
+      <h2>How It Works</h2>
+      <p>Simple 4-step process to get your branded merchandise:</p>
+      <div class="steps">
+          <div class="step">
+          <i class="bi bi-upload icon-yellow"></i>
+          <p><strong>1. Upload Logo</strong><br>Select logo</p>
+          </div>
+          <div class="step">
+          <i class="bi bi-sliders icon-yellow"></i>
+          <p><strong>2. Customize</strong><br>Choose colors & sizes</p>
+          </div>
+          <div class="step">
+          <i class="bi bi-credit-card icon-yellow"></i>
+          <p><strong>3. Order</strong><br>Secure payment options</p>
+          </div>
+          <div class="step">
+          <i class="bi bi-truck icon-yellow"></i>
+          <p><strong>4. Delivery</strong><br>By Alligator</p>
+          </div>
+      </div>
     </div>
   </section>
-
   <!-- Footer -->
   <footer>
     <div class="footer-container">
@@ -89,5 +99,27 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js"></script>
   <!-- Link to JS file -->
   <script type="module" src="js/products.js"></script>
+
+  <!-- Pop up message -->
+  <script>
+  function showPopup() {
+    const popup = document.getElementById("popupMessage");
+    popup.style.display = "flex"; // show popup
+  }
+
+  function closePopup() {
+    const popup = document.getElementById("popupMessage");
+    popup.style.display = "none"; // hide popup
+  }
+
+  // Show after 2 seconds
+  setTimeout(showPopup, 5000);
+
+  // Auto close after 13 seconds total (2s + 11s)
+  setTimeout(() => {
+    closePopup();
+  }, 13000);
+</script>
+
 </body>
 </html>

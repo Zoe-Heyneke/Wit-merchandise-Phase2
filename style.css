@@ -42,11 +42,10 @@ nav a:hover {
 }
 
 .hero-section h1{
-  text-shadow: 4px 4px #030039;
   padding: 8px;
   text-shadow: 2px 2px 0 #030039,
-               4px 4px 8px rgba(109, 240, 240, 0.6),
-               0 0 8px #e5cf67;
+               2px 2px 6px rgba(109, 240, 240, 0.6),
+               0 0 6px #e5cf67;
 
 }
 
@@ -88,7 +87,7 @@ nav a:hover {
   color: #030ba6;
   padding: 2rem;
   margin: 0 auto;
-  max-width: 1850px;
+  max-width: 1650px;
   border-radius: 10px;
   box-shadow: 0 0 15px #030039;
 }
@@ -118,9 +117,8 @@ nav a:hover {
   letter-spacing: 2px;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 1.5s ease-out forwards;
-  animation-delay: 1s;
-  
+  animation: fadeInUp 0.5s ease-out forwards;
+  animation-delay: 0.2s;
 }
 
 /* Keyframes */
@@ -133,6 +131,56 @@ nav a:hover {
     opacity: 1;
     transform: translateY(20px);
   }
+}
+
+.popup-message {
+  display: none;
+  text-align: center;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #030039;
+  color: #fafae6;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  border: 2px solid #fafae6;
+  box-shadow: 0 4px 12px #05f2f2;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeSlideDown 2s ease-in-out;
+}
+
+.popup-message a {
+  color: #e5cf67;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fafae6;
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+@keyframes fadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+main h1{
+  text-align: center;
 }
 
 
