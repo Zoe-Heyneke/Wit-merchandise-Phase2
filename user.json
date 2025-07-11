@@ -1,16 +1,18 @@
-
 {
-    "name": "Kim",
-    "surname":"James",
-    "phoneNumber":"+27 123456789",
-    "signupEmail":"",
-    "signupPassword":"",
-    "address":{
-    "street":"Floyd",
-    "buildingType":["Apartment", "House","Complex","TownHouse","Office","Other"],
-    "neighborhood":"Sandton",
-    "city":"Johannesburg",
-    "postalCode":"1234"
+  "users": {
+    "user1": {
+      "name": "Kim",
+      "surname": "James",
+      "phoneNumber": "+27 123456789",
+      "signupEmail": "kim.james@example.com",
+      "signupPassword": "hashedpassword123", 
+      "address": {
+        "street": "Floyd",
+        "buildingType": "Apartment", 
+        "neighborhood": "Sandton",
+        "city": "Johannesburg",
+        "postalCode": "1234"
+      }
     }
-
+  }
 }
