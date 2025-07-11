@@ -18,17 +18,24 @@
       <a href="products.html">Products</a>
       <a href="inspired.html">Get Inspired</a>
       <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a> 
+      <a href="profile.html" class="underlined"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
 
   <!-- Main Content -->
   <main>
     <h1>User Profile</h1>
-   <div class="user-account">
-  <h2>Sign In or Create Account</h2>
+  <div class="user-account">
+  <h2>Create Account or Sign In</h2>
+
+  <!-- Switch Tabs -->
+  <div class="auth-switch">
+    <div id="createTab" class="auth-tab active">Create Account</div>
+    <div id="signInTab" class="auth-tab">Sign In</div>
+  </div>
 
   <!-- Sign Up Form -->
-  <div id="signup-section">
+  <div id="signup-section" class="auth-form">
     <h3>Create an Account</h3>
     <form>
       <input type="text" id="name" placeholder="Name" required />
@@ -52,9 +59,10 @@
       <button type="submit" id="signupBtn">Sign Up</button>
     </form>
   </div>
+  
 
   <!-- Sign In Form -->
-  <div id="signin-section">
+  <div id="signin-section" class="auth-form" style="display: none;">
     <h3>Already have an account?</h3>
     <form>
       <input type="email" id="signinEmail" placeholder="Email" required />
@@ -114,5 +122,27 @@
 
   <!-- Link to JS file -->
   <script type="module" src="profile.js"></script>
+
+  <!-- Profile switching -->
+  <script>
+    const createTab = document.getElementById('createTab');
+    const signInTab = document.getElementById('signInTab');
+    const signupForm = document.getElementById('signup-section');
+    const signinForm = document.getElementById('signin-section');
+
+    createTab.addEventListener('click', () => {
+      createTab.classList.add('active');
+      signInTab.classList.remove('active');
+      signupForm.style.display = 'block';
+      signinForm.style.display = 'none';
+    });
+
+    signInTab.addEventListener('click', () => {
+      signInTab.classList.add('active');
+      createTab.classList.remove('active');
+      signupForm.style.display = 'none';
+      signinForm.style.display = 'block';
+    });
+  </script>
 </body>
 </html>

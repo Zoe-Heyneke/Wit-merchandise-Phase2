@@ -12,6 +12,10 @@ header {
   background-color: #030039;
 }
 
+.underlined{
+  text-decoration: underline;
+}
+
 nav {
   margin-top: 3rem;
 }
@@ -183,6 +187,26 @@ main h1{
   text-align: center;
 }
 
+.product-controls {
+  display: flex;                 
+  justify-content: center;        
+  align-items: center;           
+  gap: 1rem;                     
+  margin: 1rem auto;              
+  flex-wrap: nowrap;             
+  width: fit-content;             
+}
+
+.product-controls input,
+.product-controls select {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 2px solid #030ba6;
+  font-family: 'Poppins', sans-serif;
+}
+
+
 
 .product-list {
   display: grid;
@@ -192,13 +216,35 @@ main h1{
 }
 
 .product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   background-color: white;
   border: 2px solid #030ba6;
   border-radius: 10px;
   padding: 1rem;
-  text-align: center;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
+}
+
+.product-main {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.product-main img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+
+
+.product-info {
+  flex-grow: 1;
 }
 
 .product-card h3{
@@ -212,8 +258,10 @@ main h1{
 .product-card img {
   width: 100%;
   max-height: 200px;
-  object-fit: cover;
+  height: 200px; 
+  object-fit: contain; 
   margin-bottom: 1rem;
+  border-radius: 8px;
 }
 
 .product-card .price {
@@ -222,11 +270,14 @@ main h1{
 }
 
 .customize-options {
+  display: none;
   margin-top: 1rem;
-  background-color:#fafae6;
+  background-color: #fafae6;
   padding: 1rem;
   border-radius: 10px;
-  animation: fadeIn 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .add-to-cart-btn,
@@ -427,12 +478,33 @@ button:hover {
   transform: translateY(-2px); /* Slight lift on hover */
 }
 
-p {
+.auth-form p{
   color: #030039;
   font-size: 14px;
   text-align: center;
   margin-top: 20px;
 }
+
+.auth-switch {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.auth-tab {
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  color: grey;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.auth-tab.active {
+  color: #030039;
+  border-bottom: 3px solid #030039;
+}
+
 
 .coming-soon-section {
   display: flex;
