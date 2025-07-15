@@ -24,7 +24,13 @@
   <main>
     <h1>Product Catalog</h1>
     <div class="product-controls">
-      <input type="text" id="searchInput" placeholder="Search products...">
+      <div class="search-group">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <button id="searchBtn" aria-label="Search">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+      
       <select id="categoryFilter">
         <option value="all">All Categories</option>
         <option value="shirts">T-Shirts</option>
@@ -32,8 +38,9 @@
         <option value="accessories">Accessories</option>
       </select>
     </div>
+
     <div id="productList" class="product-list">
-      <div class="product-card">
+      <div class="product-card" data-category="shirts">
         <img src="images/t-shrt.png" alt="Hoodie">
         <h3>T-shirt</h3>
         <p>100% Cotton, Unisex fit</p>
@@ -65,7 +72,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" data-category="shirts">
         <img src="images/t-shrt.png" alt="Hoodie">
         <h3>T-shirt</h3>
         <p>100% Cotton, Unisex fit</p>
@@ -97,7 +104,7 @@
         </div>
       </div>
 
-      <div class="product-card">
+      <div class="product-card" data-category="shirts">
         <img src="images/t-shrt.png" alt="Hoodie">
         <h3>T-shirt</h3>
         <p>100% Cotton, Unisex fit</p>
@@ -130,6 +137,9 @@
       </div>
 
     </div>
+
+    <p id="noResults" style="text-align:center; display:none; color: grey;">No products match your search.</p>
+
   </main>
 
   <footer>
@@ -163,15 +173,67 @@
   <script src="js/products.js"></script>
 
   <script>
+    // Toggle customize panel per product
     function toggleCustomize(button) {
-    const card = button.closest('.product-card');
-    const options = card.querySelector('.customize-options');
-    if (options.style.display === "none" || options.style.display === "") {
-      options.style.display = "block";
-    } else {
-      options.style.display = "none";
+      const card = button.closest('.product-card');
+      const options = card.querySelector('.customize-options');
+      options.style.display = (options.style.display === "none" || options.style.display === "") ? "block" : "none";
     }
-  }
+
+    // Perform search (shared for input and button)
+    function performSearch() {
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".product-card");
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector("h3").textContent.toLowerCase();
+        const allParagraphs = Array.from(card.querySelectorAll("p")).map(p => p.textContent.toLowerCase()).join(" ");
+
+        if (title.includes(searchTerm) || allParagraphs.includes(searchTerm)) {
+          card.style.display = "block";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      const noResults = document.getElementById("noResults");
+      if (noResults) {
+        noResults.style.display = (visibleCount === 0) ? "block" : "none";
+      }
+    }
+
+    function filterByCategory() {
+      const selectedCategory = document.getElementById("categoryFilter").value;
+      const cards = document.querySelectorAll(".product-card");
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const category = card.getAttribute("data-category");
+
+        if (selectedCategory === "all" || category === selectedCategory) {
+          card.style.display = "block";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      const noResults = document.getElementById("noResults");
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    // Run on typing
+    document.getElementById("searchInput").addEventListener("input", performSearch);
+
+    // Run on button click (make sure the button exists in your HTML)
+    document.getElementById("searchBtn").addEventListener("click", performSearch);
+    
+    document.getElementById("categoryFilter").addEventListener("change", filterByCategory);
+  
   </script>
+
+
 </body>
 </html>

@@ -206,6 +206,50 @@ main h1{
   font-family: 'Poppins', sans-serif;
 }
 
+.search-group {
+  display: flex;
+  align-items: stretch; /* Ensures perfect vertical alignment */
+  gap: 5px;
+}
+
+#searchInput {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 2px solid #030ba6;
+  border-radius: 5px;
+  width: 200px;
+  height: 40px; /* Ensure height matches the button */
+  box-sizing: border-box;
+}
+
+
+#searchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  padding: 0; /* Optional: remove padding for icon-only button */
+  background-color: #030ba6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+#searchBtn i {
+  font-size: 16px;
+  vertical-align: middle;
+}
+
+
+
+
+#searchBtn:hover {
+  background-color: #05f2f2;
+  color: #030039;
+}
 
 
 .product-list {
@@ -225,6 +269,7 @@ main h1{
   padding: 1rem;
   font-family: 'Poppins', sans-serif;
   transition: all 0.3s ease;
+  align-self: start;
 }
 
 .product-main {
@@ -275,10 +320,11 @@ main h1{
   background-color: #fafae6;
   padding: 1rem;
   border-radius: 10px;
-  display: flex;
   flex-direction: column;
   gap: 10px;
+  animation: fadeIn 0.3s ease forwards;
 }
+
 
 .add-to-cart-btn,
 .customize-btn {
@@ -404,6 +450,44 @@ main h1{
   padding: 0.6rem 1rem;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.cart-main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#cartItems {
+  margin-bottom: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+#checkoutSection {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f0f0f0;
+  border-radius: 10px;
+}
+
+#checkoutSection select,
+#checkoutSection button {
+  margin-top: 10px;
+  padding: 8px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.payment-box {
+  margin-top: 15px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f7f7f7;
 }
 
 

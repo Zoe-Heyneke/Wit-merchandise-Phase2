@@ -20,7 +20,7 @@
       <a href="profile.html"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
-  <main>
+  <main class="cart-main">
     <h1>Your Cart</h1>
     <div id="cartItems"></div>
     <div id="checkoutSection">
@@ -32,6 +32,29 @@
       </select>
       <button onclick="checkout()">Checkout</button>
     </div>
+
+    <div id="paymentDetails">
+      <div id="eft" class="payment-box" style="display: none;">
+        <h4>Bank Transfer Details</h4>
+        <p>Bank: Women In Tech Bank</p>
+        <p>Account Number: 123456789</p>
+        <p>Branch Code: 000000</p>
+        <p>Please send proof of payment to: info@womenintech.org.za</p>
+      </div>
+
+      <div id="paypal" class="payment-box" style="display: none;">
+        <h4>Pay with PayPal</h4>
+        <p>You will be redirected to PayPal to complete your purchase.</p>
+        <!-- You can integrate PayPal button here later -->
+      </div>
+
+      <div id="zapper" class="payment-box" style="display: none;">
+        <h4>Pay with Zapper / SnapScan</h4>
+        <p>Scan the QR code below to complete payment.</p>
+        <img src="images/zapper-qr.png" alt="Zapper QR" width="200">
+      </div>
+    </div>
+
   </main>
 
   <footer>
@@ -63,5 +86,70 @@
     </footer>
 
   <script src="js/cart.js"></script>
+
+  <script>
+    const paymentSelect = document.getElementById("paymentMethod");
+    const paymentBoxes = {
+      eft: document.getElementById("eft"),
+      paypal: document.getElementById("paypal"),
+      zapper: document.getElementById("zapper")
+    };
+
+    paymentSelect.addEventListener("change", function () {
+      const selected = this.value;
+
+      // Hide all payment boxes
+      for (const method in paymentBoxes) {
+        paymentBoxes[method].style.display = "none";
+      }
+
+      // Show the selected one
+      if (paymentBoxes[selected]) {
+        paymentBoxes[selected].style.display = "block";
+      }
+    });
+
+    // Optionally trigger default on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      paymentSelect.dispatchEvent(new Event("change"));
+    });
+
+    function checkout() {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const selectedMethod = document.getElementById("paymentMethod").value;
+
+    if (cartItems.length === 0) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    const user = firebase.auth().currentUser;
+    if (!user) {
+      alert("Please log in to continue.");
+      return;
+    }
+
+    // Save order to Firestore
+    const order = {
+      userId: user.uid,
+      items: cartItems,
+      paymentMethod: selectedMethod,
+      status: "pending",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    firebase.firestore().collection("orders").add(order)
+      .then(() => {
+        alert("Order saved! Now proceed with payment.");
+        // Show the relevant payment box
+        paymentSelect.dispatchEvent(new Event("change"));
+      })
+      .catch((error) => {
+        console.error("Error saving order:", error);
+      });
+  }
+
+</script>
+
 </body>
 </html>
