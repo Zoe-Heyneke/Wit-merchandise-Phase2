@@ -9,7 +9,7 @@
 <body>
   <header>
     <a href="index.html">
-        <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+      <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
     </a>
     <nav>
       <a href="index.html">Home</a>
@@ -20,48 +20,81 @@
       <a href="profile.html"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
+
   <main>
     <h1>Your Cart</h1>
-    <div id="cartItems"></div>
+
+    <!-- Cart Items Container -->
+    <div id="cartItems">
+      <!-- Example Item Structure (will be generated dynamically) -->
+      <!--
+      <div class="cart-item">
+        <img src="images/sample-product.png" alt="Product Name" width="80">
+        <div class="item-details">
+          <h3>Product Name</h3>
+          <p>Size: M | Color: Red</p>
+          <p>Price: R120</p>
+        </div>
+        <div class="quantity-controls">
+          <button onclick="decreaseQuantity(0)">-</button>
+          <span>1</span>
+          <button onclick="increaseQuantity(0)">+</button>
+        </div>
+        <div class="item-total">
+          <p>Subtotal: R120</p>
+        </div>
+      </div>
+      -->
+    </div>
+
+    <!-- Total Section -->
+    <div id="totalSection">
+      <h3>Total: R<span id="cartTotal">0</span></h3>
+    </div>
+
+    <!-- Checkout Section -->
     <div id="checkoutSection">
       <h3>Select Payment Method</h3>
       <select id="paymentMethod">
         <option value="eft">EFT</option>
         <option value="paypal">PayPal</option>
-        <option value="zapper">Zapper/SnapScan</option>
+        <option value="zapper">Zapper</option>
+        <option value="snapscan">SnapScan</option>
       </select>
+      <br><br>
       <button onclick="checkout()">Checkout</button>
     </div>
   </main>
 
   <footer>
-        <div class="footer-container">
-            <div class="footer-left">
-            <a href="index.html">
-                <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
-            </a>
-            <p>Empowering women in technology with confidence and excellence.​</p>
-            </div>
+    <div class="footer-container">
+      <div class="footer-left">
+        <a href="index.html">
+          <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+        </a>
+        <p>Empowering women in technology with confidence and excellence.​</p>
+      </div>
 
-            <div class="footer-links">
-            <h3>Quick Links</h3>
-            <a href="index.html">Home</a>
-            <a href="index.html#how-it-works">How it Works</a>
-            <a href="products.html">Products</a>
-            <a href="inspired.html">Get Inspired</a>
-            <a href="cart.html">Cart</a>
-            <a href="profile.html">Profile</a>
-            </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How it Works</a>
+        <a href="products.html">Products</a>
+        <a href="inspired.html">Get Inspired</a>
+        <a href="cart.html">Cart</a>
+        <a href="profile.html">Profile</a>
+      </div>
 
-            <div class="footer-contact">
-            <h3>Contact Us</h3>
-            <p>Email: info@womenintech.org.za</p>
-            <p>Phone: +27</p>
-            <p>Address: South Africa</p>
-            </div>
-        </div>
-    </footer>
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <p>Email: info@womenintech.org.za</p>
+        <p>Phone: +27</p>
+        <p>Address: South Africa</p>
+      </div>
+    </div>
+  </footer>
 
   <script src="js/cart.js"></script>
 </body>
 </html>
+
