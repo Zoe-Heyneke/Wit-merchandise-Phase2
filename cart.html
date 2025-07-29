@@ -20,12 +20,7 @@
       <a href="profile.html"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
-<<<<<<< HEAD
-
-  <main>
-=======
   <main class="cart-main">
->>>>>>> a927feab68864dc43bd5500b2743a9419f14bbef
     <h1>Your Cart</h1>
 
     <!-- Cart Items Container -->
@@ -39,7 +34,7 @@
           <p>Size: M | Color: Red</p>
           <p>Price: R120</p>
         </div>
-        <div class="quantity-controls">
+        <div class="quantity-controls"> 
           <button onclick="decreaseQuantity(0)">-</button>
           <span>1</span>
           <button onclick="increaseQuantity(0)">+</button>
@@ -150,43 +145,7 @@
       paymentSelect.dispatchEvent(new Event("change"));
     });
 
-    function checkout() {
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    const selectedMethod = document.getElementById("paymentMethod").value;
-
-    if (cartItems.length === 0) {
-      alert("Your cart is empty.");
-      return;
-    }
-
-    const user = firebase.auth().currentUser;
-    if (!user) {
-      alert("Please log in to continue.");
-      return;
-    }
-
-    // Save order to Firestore
-    const order = {
-      userId: user.uid,
-      items: cartItems,
-      paymentMethod: selectedMethod,
-      status: "pending",
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    };
-
-    firebase.firestore().collection("orders").add(order)
-      .then(() => {
-        alert("Order saved! Now proceed with payment.");
-        // Show the relevant payment box
-        paymentSelect.dispatchEvent(new Event("change"));
-      })
-      .catch((error) => {
-        console.error("Error saving order:", error);
-      });
-  }
-
 </script>
-
 </body>
 </html>
 
