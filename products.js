@@ -1,25 +1,33 @@
-// Import Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
-
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDLmDOVDYHMrx856WTVlC-AYhEhFUQvNec",
-  authDomain: "witm-d28ce.firebaseapp.com",
-  databaseURL: "https://witm-d28ce-default-rtdb.firebaseio.com",
-  projectId: "witm-d28ce",
-  storageBucket: "witm-d28ce.appspot.com",
-  messagingSenderId: "361026083423",
-  appId: "1:361026083423:web:1a207ba6efc173612e59ea",
-  measurementId: "G-ZBD1D4NRT0"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
 // DOM element where products will be displayed
 const productList = document.getElementById("productList");
+
+// Static product data (replace or expand as needed)
+const products = [
+  {
+    id: 1,
+    name: "T-shirt",
+    description: "100% Cotton, Unisex fit",
+    price: 150,
+    image: "images/t-shrt.png",
+    category: "shirts"
+  },
+  {
+    id: 2,
+    name: "Hoodie",
+    description: "Warm and cozy",
+    price: 300,
+    image: "images/hoodie.png",
+    category: "hoodies"
+  },
+  {
+    id: 3,
+    name: "Cap",
+    description: "Stylish accessory",
+    price: 100,
+    image: "images/cap.png",
+    category: "accessories"
+  }
+];
 
 // Function to render a product card
 function renderProductCard(product) {
@@ -92,24 +100,12 @@ function renderProductCard(product) {
   productList.appendChild(card);
 }
 
-// Fetch products from Firebase
-function fetchProducts() {
-  const productsRef = ref(db, "products");
-
-  onValue(productsRef, (snapshot) => {
-    productList.innerHTML = ""; // Clear existing products
-    const data = snapshot.val();
-
-    if (data) {
-      Object.keys(data).forEach((key) => {
-        const product = data[key];
-        renderProductCard(product);
-      });
-    } else {
-      productList.innerHTML = "<p>No products available.</p>";
-    }
+// Render all products on page load
+function loadProducts() {
+  productList.innerHTML = "";
+  products.forEach(product => {
+    renderProductCard(product);
   });
 }
 
-// Load products when page loads
-fetchProducts();
+loadProducts();
