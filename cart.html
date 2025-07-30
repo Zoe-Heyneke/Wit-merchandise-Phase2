@@ -146,6 +146,27 @@
     });
 
 </script>
+<!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, addDoc, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDwj317ZwSdhEZ-qQV0a7i7Qn5KW--wkwI",
+    authDomain: "womenintech-1b9aa.firebaseapp.com",
+    projectId: "womenintech-1b9aa",
+    storageBucket: "womenintech-1b9aa.firebasestorage.app",
+    messagingSenderId: "401552924592",
+    appId: "1:401552924592:web:3922c5192abd7239a24075"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app); // ✅ This connects Firestore
+
+  // Now you can use 'db' to interact with your Firestore database
+</script>
+
+
 </body>
 </html>
 
