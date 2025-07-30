@@ -41,14 +41,41 @@
 
     <div id="productList" class="product-list">
       <div class="product-card" data-category="shirts">
-        <img src="images/t-shrt.png" alt="Hoodie">
+        <img src="images/t-shirt-black.png" alt="T-shirt" class="product-image">
         <h3>T-shirt</h3>
         <p>100% Cotton, Unisex fit</p>
         <p class="price">R150</p>
+
+        <!-- Color Options -->
+        <div class="color-options">
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-black.png" style="background:black"></button>
+            <span>Black</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-green.png" style="background:green"></button>
+            <span>Green</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-grey.png" style="background:grey"></button>
+            <span>Grey</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-pink.png" style="background:pink"></button>
+            <span>Pink</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-white.png" style="background:white"></button>
+            <span>White</span>
+          </div>
+        </div>
+
+
+        <!-- Customize -->
         <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
 
         <div class="customize-options" style="display: none;">
-          <label for="size">Size:</label>
+          <label>Size:</label>
           <select class="size-select">
             <option value="">Select size</option>
             <option value="XS">XS</option>
@@ -56,82 +83,54 @@
             <option value="M">M</option>
             <option value="L">L</option>
             <option value="XL">XL</option>
+            <option value="XL">XXL</option>
+            <option value="XL">XXXL</option>
           </select>
-
-          <label for="color">Color:</label>
-          <select class="color-select">
-            <option value="">Select color</option>
-            <option value="Red">Red</option>
-            <option value="White">White</option>
-            <option value="Black">Black</option>
-            <option value="Blue">Blue</option>
-            <option value="Pink">Pink</option>
-          </select>
-
           <button class="add-to-cart-btn">Add to Cart</button>
         </div>
       </div>
 
-      <div class="product-card" data-category="shirts">
-        <img src="images/t-shrt.png" alt="Hoodie">
-        <h3>T-shirt</h3>
-        <p>100% Cotton, Unisex fit</p>
-        <p class="price">R150</p>
-        <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
 
-        <div class="customize-options" style="display: none;">
-          <label for="size">Size:</label>
-          <select class="size-select">
-            <option value="">Select size</option>
-            <option value="XS">XS</option>
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
+      <div class="product-card" data-category="hoodies">
+        <img src="images/hoodie-black.png" alt="Hoodie" class="product-image">
+        <h3>Hoodie</h3>
+        <p>Premium Fleece</p>
+        <p class="price">R300</p>
 
-          <label for="color">Color:</label>
-          <select class="color-select">
-            <option value="">Select color</option>
-            <option value="Red">Red</option>
-            <option value="White">White</option>
-            <option value="Black">Black</option>
-            <option value="Blue">Blue</option>
-            <option value="Pink">Pink</option>
-          </select>
-
-          <button class="add-to-cart-btn">Add to Cart</button>
+        <div class="color-options">
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-black.png" style="background:black"></button>
+            <span>Black</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-white.png" style="background:white"></button>
+            <span>White</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-grey.png" style="background:grey"></button>
+            <span>Grey</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-red.png" style="background:red"></button>
+            <span>Pink</span>
+          </div>
+          
         </div>
-      </div>
 
-      <div class="product-card" data-category="shirts">
-        <img src="images/t-shrt.png" alt="Hoodie">
-        <h3>T-shirt</h3>
-        <p>100% Cotton, Unisex fit</p>
-        <p class="price">R150</p>
+
         <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
 
         <div class="customize-options" style="display: none;">
-          <label for="size">Size:</label>
+          <label>Size:</label>
           <select class="size-select">
             <option value="">Select size</option>
-            <option value="XS">XS</option>
             <option value="S">S</option>
             <option value="M">M</option>
             <option value="L">L</option>
             <option value="XL">XL</option>
+            <option value="XL">XXL</option>
+            <option value="XL">XXXL</option>
           </select>
-
-          <label for="color">Color:</label>
-          <select class="color-select">
-            <option value="">Select color</option>
-            <option value="Red">Red</option>
-            <option value="White">White</option>
-            <option value="Black">Black</option>
-            <option value="Blue">Blue</option>
-            <option value="Pink">Pink</option>
-          </select>
-
           <button class="add-to-cart-btn">Add to Cart</button>
         </div>
       </div>
@@ -173,6 +172,17 @@
   <script src="js/products.js"></script>
 
   <script>
+    // Handle Color Selection (update image)
+    document.querySelectorAll(".color-btn").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const imageFile = this.getAttribute("data-image");
+        const card = this.closest(".product-card");
+        const productImage = card.querySelector(".product-image");
+        productImage.src = "images/" + imageFile;
+      });
+    });
+
+
     // Toggle customize panel per product
     function toggleCustomize(button) {
       const card = button.closest('.product-card');
