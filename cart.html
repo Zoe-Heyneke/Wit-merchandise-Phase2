@@ -5,6 +5,39 @@
   <title>Cart - Women in Tech</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* --- Shipping UI helpers (lightweight) --- */
+    .shipping-section {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f7f7f7;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .shipping-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .shipping-row .full { grid-column: 1 / -1; }
+    .shipping-form {
+      display: none;
+      margin-top: 10px;
+    }
+    .addr-preview {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+    .addr-empty {
+      color: #b00020;
+      font-weight: 600;
+    }
+    .small-note { font-size: .9rem; color: #555; }
+    .hidden { display: none !important; }
+  </style>
 </head>
 <body>
   <header>
@@ -20,39 +53,56 @@
       <a href="profile.html"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
+
   <main class="cart-main">
     <h1>Your Cart</h1>
 
     <!-- Cart Items Container -->
-    <div id="cartItems">
-      <!-- Example Item Structure (will be generated dynamically) -->
-      <!--
-      <div class="cart-item">
-        <img src="images/sample-product.png" alt="Product Name" width="80">
-        <div class="item-details">
-          <h3>Product Name</h3>
-          <p>Size: M | Color: Red</p>
-          <p>Price: R120</p>
-        </div>
-        <div class="quantity-controls"> 
-          <button onclick="decreaseQuantity(0)">-</button>
-          <span>1</span>
-          <button onclick="increaseQuantity(0)">+</button>
-        </div>
-        <div class="item-total">
-          <p>Subtotal: R120</p>
-        </div>
-      </div>
-      -->
-    </div>
+    <div id="cartItems"></div>
 
     <!-- Total Section -->
     <div id="totalSection">
       <h3>Total: R<span id="cartTotal">0</span></h3>
     </div>
 
+    <!-- Shipping Section -->
+    <div class="shipping-section">
+      <h3>Shipping Address</h3>
+
+      <label style="display:flex;align-items:center;gap:.5rem;margin-top:.5rem;">
+        <input type="checkbox" id="useProfileAddress" checked>
+        <span>Use profile address</span>
+      </label>
+      <div id="profileAddrPreview" class="addr-preview small-note">Loading your profile address…</div>
+      <div id="profileAddrMissing" class="addr-preview addr-empty hidden">
+        No address found in your profile. Untick “Use profile address” to enter a shipping address.
+      </div>
+
+      <!-- Alternate shipping form -->
+      <div id="shippingForm" class="shipping-form">
+        <div class="shipping-row">
+          <input id="shipName" class="full" type="text" placeholder="Full Name">
+          <input id="shipPhone" type="tel" placeholder="Phone Number">
+          <input id="shipEmail" type="email" placeholder="Email">
+          <input id="shipStreet" class="full" type="text" placeholder="Street">
+          <select id="shipBuilding" >
+            <option value="">Building Type</option>
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Complex</option>
+            <option>Townhouse</option>
+            <option>Office</option>
+            <option>Other</option>
+          </select>
+          <input id="shipNeighborhood" type="text" placeholder="Neighborhood">
+          <input id="shipCity" type="text" placeholder="City">
+          <input id="shipPostal" type="text" placeholder="Postal Code">
+        </div>
+      </div>
+    </div>
+
     <!-- Checkout Section -->
-    <div id="checkoutSection">
+    <div id="checkoutSection" style="margin-top:20px;">
       <h3>Select Payment Method</h3>
       <select id="paymentMethod">
         <option value="eft">EFT</option>
@@ -64,19 +114,21 @@
       <button onclick="checkout()">Checkout</button>
     </div>
 
+    <!-- Payment details boxes -->
     <div id="paymentDetails">
       <div id="eft" class="payment-box" style="display: none;">
         <h4>Bank Transfer Details</h4>
-        <p>Bank: Women In Tech Bank</p>
-        <p>Account Number: 123456789</p>
-        <p>Branch Code: 000000</p>
+        <p><strong>Bank:</strong> First National Bank (FNB)</p>
+        <p><strong>Account Name:</strong> South Africa Chapter Women in Tech NPC</p>
+        <p><strong>Account Number:</strong> 62869256208</p>
+        <p><strong>Branch Code:</strong> 201709</p>
         <p>Please send proof of payment to: info@womenintech.org.za</p>
       </div>
 
       <div id="paypal" class="payment-box" style="display: none;">
         <h4>Pay with PayPal</h4>
         <p>You will be redirected to PayPal to complete your purchase.</p>
-        <!-- You can integrate PayPal button here later -->
+        <!-- Later: Insert PayPal smart buttons -->
       </div>
 
       <div id="zapper" class="payment-box" style="display: none;">
@@ -85,7 +137,6 @@
         <img src="images/zapper-qr.png" alt="Zapper QR" width="200">
       </div>
     </div>
-
   </main>
 
   <footer>
@@ -96,7 +147,6 @@
         </a>
         <p>Empowering women in technology with confidence and excellence.​</p>
       </div>
-
       <div class="footer-links">
         <h3>Quick Links</h3>
         <a href="index.html">Home</a>
@@ -106,7 +156,6 @@
         <a href="cart.html">Cart</a>
         <a href="profile.html">Profile</a>
       </div>
-
       <div class="footer-contact">
         <h3>Contact Us</h3>
         <p>Email: info@womenintech.org.za</p>
@@ -116,36 +165,259 @@
     </div>
   </footer>
 
-  <script src="js/cart.js"></script>
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 
   <script>
+    // --- Firebase Config (same project you used on profile page) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCexbP2azBROO_qDR9_W0YBZxN-5FBJp94",
+      authDomain: "women-in-tech-f5cdd.firebaseapp.com",
+      projectId: "women-in-tech-f5cdd",
+      storageBucket: "women-in-tech-f5cdd.firebasestorage.app",
+      messagingSenderId: "794639636199",
+      appId: "1:794639636199:web:3d898c3fe71d1098d9f442"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // --- Payment method toggle (kept) ---
     const paymentSelect = document.getElementById("paymentMethod");
     const paymentBoxes = {
       eft: document.getElementById("eft"),
       paypal: document.getElementById("paypal"),
       zapper: document.getElementById("zapper")
     };
-
     paymentSelect.addEventListener("change", function () {
       const selected = this.value;
+      for (const method in paymentBoxes) paymentBoxes[method].style.display = "none";
+      if (paymentBoxes[selected]) paymentBoxes[selected].style.display = "block";
+    });
 
-      // Hide all payment boxes
-      for (const method in paymentBoxes) {
-        paymentBoxes[method].style.display = "none";
+    // --- Cart state ---
+    let cartItems = [];
+    let totalPrice = 0;
+    const cartContainer = document.getElementById("cartItems");
+    const cartTotalEl = document.getElementById("cartTotal");
+
+    function loadCart() {
+      cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      cartContainer.innerHTML = "";
+      totalPrice = 0;
+
+      if (cartItems.length === 0) {
+        cartContainer.innerHTML = "<p>Your cart is empty</p>";
+        cartTotalEl.textContent = 0;
+        return;
       }
 
-      // Show the selected one
-      if (paymentBoxes[selected]) {
-        paymentBoxes[selected].style.display = "block";
+      cartItems.forEach((item, index) => {
+  if (typeof item.quantity !== "number" || item.quantity < 1) item.quantity = 1;
+  totalPrice += item.price * item.quantity;
+
+  cartContainer.innerHTML += `
+      <div class="cart-item" style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;border-bottom:1px solid #ccc;padding:10px 0;">
+        <img src="${item.image || 'images/t-shirt-black.png'}" alt="${item.name}" width="80">
+        
+        <div class="item-details" style="flex:1;">
+          <h3>${item.name}</h3>
+          <p>${item.size ? `Size: ${item.size} | ` : ''}${item.color ? `Color: ${item.color}` : ''}</p>
+          <p>Price: R${item.price}</p>
+        </div>
+
+        <div class="quantity-controls">
+          <button onclick="decreaseQuantity(${index})">-</button>
+          <span>${item.quantity}</span>
+          <button onclick="increaseQuantity(${index})">+</button>
+        </div>
+
+        <div class="item-total">
+          <p>Subtotal: R${(item.price * item.quantity).toFixed(2)}</p>
+        </div>
+
+        <div>
+          <button onclick="removeItem(${index})" style="color:red;">Remove</button>
+        </div>
+      </div>`;
+  });
+
+
+      cartTotalEl.textContent = totalPrice.toFixed(2);
+    }
+
+    function increaseQuantity(index) {
+      cartItems[index].quantity++;
+      saveCart();
+    }
+    function decreaseQuantity(index) {
+      if (cartItems[index].quantity > 1) {
+        cartItems[index].quantity--;
+      } else {
+        cartItems.splice(index, 1);
+      }
+      saveCart();
+    }
+    function saveCart() {
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      loadCart();
+    }
+    function removeItem(index) {
+      cartItems.splice(index, 1);
+      saveCart();
+    }
+
+
+    // --- Shipping: use profile or custom form ---
+    const useProfileAddressEl = document.getElementById("useProfileAddress");
+    const shippingFormEl = document.getElementById("shippingForm");
+    const profileAddrPreviewEl = document.getElementById("profileAddrPreview");
+    const profileAddrMissingEl = document.getElementById("profileAddrMissing");
+
+    let cachedProfile = null; // store fetched profile once
+
+    useProfileAddressEl.addEventListener("change", () => {
+      const useProfile = useProfileAddressEl.checked;
+      shippingFormEl.style.display = useProfile ? "none" : "block";
+    });
+
+    // Fetch profile data when user is logged in
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        profileAddrPreviewEl.innerHTML = `<span class="addr-empty">Please sign in to use your profile address. Untick the box to enter shipping address.</span>`;
+        return;
+      }
+      try {
+        const doc = await db.collection("users").doc(user.uid).get();
+        if (!doc.exists) {
+          profileAddrPreviewEl.classList.add("hidden");
+          profileAddrMissingEl.classList.remove("hidden");
+          return;
+        }
+        cachedProfile = doc.data();
+
+        const a = cachedProfile.address || {};
+        const lines = [
+          cachedProfile.name || user.email || "",
+          a.street || "",
+          [a.neighborhood, a.city].filter(Boolean).join(", "),
+          a.postalCode || ""
+        ].filter(Boolean);
+
+        profileAddrPreviewEl.textContent = lines.length ? lines.join(" • ") : "No address on file.";
+        if (!lines.length) {
+          profileAddrPreviewEl.classList.add("hidden");
+          profileAddrMissingEl.classList.remove("hidden");
+        } else {
+          profileAddrPreviewEl.classList.remove("hidden");
+          profileAddrMissingEl.classList.add("hidden");
+        }
+      } catch (e) {
+        profileAddrPreviewEl.innerHTML = `<span class="addr-empty">Could not load profile address. You can manually enter shipping details.</span>`;
       }
     });
 
-    // Optionally trigger default on page load
+    // --- Checkout ---
+    async function checkout() {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Please sign in first!");
+        window.location.href = "profile.html";
+        return;
+      }
+      if (!cartItems.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      // Build shipping object
+      const useProfile = useProfileAddressEl.checked;
+      let shipping = null;
+
+      if (useProfile) {
+        // Require a usable profile address
+        if (!cachedProfile || !cachedProfile.address || !cachedProfile.address.street) {
+          alert("No profile address found. Please untick and enter a shipping address.");
+          useProfileAddressEl.checked = false;
+          shippingFormEl.style.display = "block";
+          return;
+        }
+        shipping = {
+          name: cachedProfile.name || "",
+          email: cachedProfile.email || user.email || "",
+          phone: cachedProfile.phone || "",
+          street: cachedProfile.address.street || "",
+          buildingType: cachedProfile.address.buildingType || "",
+          neighborhood: cachedProfile.address.neighborhood || "",
+          city: cachedProfile.address.city || "",
+          postalCode: cachedProfile.address.postalCode || "",
+          fromProfile: true
+        };
+      } else {
+        // Validate custom shipping fields
+        const shipName = document.getElementById("shipName").value.trim();
+        const shipEmail = document.getElementById("shipEmail").value.trim();
+        const shipPhone = document.getElementById("shipPhone").value.trim();
+        const shipStreet = document.getElementById("shipStreet").value.trim();
+        const shipBuilding = document.getElementById("shipBuilding").value.trim();
+        const shipNeighborhood = document.getElementById("shipNeighborhood").value.trim();
+        const shipCity = document.getElementById("shipCity").value.trim();
+        const shipPostal = document.getElementById("shipPostal").value.trim();
+
+        if (!shipName || !shipEmail || !shipStreet || !shipCity || !shipPostal) {
+          alert("Please complete the required shipping fields: Name, Email, Street, City, Postal Code.");
+          return;
+        }
+        shipping = {
+          name: shipName,
+          email: shipEmail,
+          phone: shipPhone,
+          street: shipStreet,
+          buildingType: shipBuilding,
+          neighborhood: shipNeighborhood,
+          city: shipCity,
+          postalCode: shipPostal,
+          fromProfile: false
+        };
+      }
+
+      const paymentMethod = document.getElementById("paymentMethod").value;
+
+      // Save order
+      try {
+        await db.collection("orders").add({
+          userId: user.uid,
+          items: cartItems,
+          total: Number(totalPrice.toFixed(2)),
+          paymentMethod,
+          shipping,
+          createdAt: new Date()
+        });
+
+        alert("Order placed successfully!");
+        localStorage.removeItem("cart");
+        window.location.href = "products.html";
+      } catch (e) {
+        console.error(e);
+        alert("Sorry, we could not place your order. Please try again.");
+      }
+    }
+
+    // Expose functions to window (for buttons in HTML)
+    window.increaseQuantity = increaseQuantity;
+    window.decreaseQuantity = decreaseQuantity;
+    window.checkout = checkout;
+
+    // Init UI
     window.addEventListener("DOMContentLoaded", () => {
       paymentSelect.dispatchEvent(new Event("change"));
+      loadCart();
+      // Ensure the shipping form reflects the checkbox default
+      shippingFormEl.style.display = useProfileAddressEl.checked ? "none" : "block";
     });
-
-</script>
+  </script>
 </body>
 </html>
-
