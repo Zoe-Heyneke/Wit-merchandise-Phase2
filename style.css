@@ -302,8 +302,8 @@ main h1{
 
 .product-card img {
   width: 100%;
-  max-height: 200px;
-  height: 200px; 
+  max-height: 180px;
+  height: auto; 
   object-fit: contain; 
   margin-bottom: 1rem;
   border-radius: 8px;
@@ -343,6 +343,37 @@ main h1{
   background-color: #05f2f2;
   color: #030039;
 }
+
+.color-options {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.color-option {
+  display: flex;
+  flex-direction: column; /* Stack button and label vertically */
+  align-items: center;
+  font-size: 12px;
+  color: #030039; /* Text color */
+}
+
+.color-btn {
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-bottom: 4px; /* Add space between button and label */
+}
+
+
+.color-btn:hover {
+  transform: scale(1.1);
+  border: 2px solid #030ba6;
+}
+
 
 /* Optional: fade in animation */
 @keyframes fadeIn {

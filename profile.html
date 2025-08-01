@@ -114,5 +114,89 @@
       </div>
     </div>
   </footer>
+
+  <!-- Firebase compat scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCexbP2azBROO_qDR9_W0YBZxN-5FBJp94",
+      authDomain: "women-in-tech-f5cdd.firebaseapp.com",
+      projectId: "women-in-tech-f5cdd",
+      storageBucket: "women-in-tech-f5cdd.firebasestorage.app",
+      messagingSenderId: "794639636199",
+      appId: "1:794639636199:web:3d898c3fe71d1098d9f442"
+    };
+
+    // Init Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Sign Up
+    document.getElementById("signupBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const name = document.getElementById("name").value;
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCred) => {
+          return db.collection("users").doc(userCred.user.uid).set({
+            name,
+            email,
+            phone: document.getElementById("phoneNumber").value,
+            address: {
+              street: document.getElementById("street").value,
+              city: document.getElementById("city").value,
+              postalCode: document.getElementById("postalCode").value
+            }
+          });
+        })
+        .then(() => alert("Account created!"))
+        .catch((err) => alert(err.message));
+    });
+
+    // Sign In
+    document.getElementById("signinBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signinEmail").value;
+      const password = document.getElementById("signinPassword").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Logged in!");
+          window.location.href = "products.html";
+        })
+        .catch((err) => alert(err.message));
+    });
+  </script>
+
+  <script>
+    // Tab switching logic
+    const createTab = document.getElementById("createTab");
+    const signInTab = document.getElementById("signInTab");
+    const signupSection = document.getElementById("signup-section");
+    const signinSection = document.getElementById("signin-section");
+
+    createTab.addEventListener("click", () => {
+      createTab.classList.add("active");
+      signInTab.classList.remove("active");
+      signupSection.style.display = "block";
+      signinSection.style.display = "none";
+    });
+
+    signInTab.addEventListener("click", () => {
+      signInTab.classList.add("active");
+      createTab.classList.remove("active");
+      signinSection.style.display = "block";
+      signupSection.style.display = "none";
+    });
+  </script>
+
+
 </body>
 </html>
