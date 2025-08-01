@@ -75,8 +75,7 @@
 
       <div id="paypal" class="payment-box" style="display: none;">
         <h4>Pay with PayPal</h4>
-        <p>You will be redirected to PayPal to complete your purchase.</p>
-        <!-- You can integrate PayPal button here later -->
+        <div id="paypal-button-container"></div>
       </div>
 
       <div id="zapper" class="payment-box" style="display: none;">
@@ -115,6 +114,38 @@
       </div>
     </div>
   </footer>
+  <!-- PayPal SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&currency=ZAR"></script>
+
+<script>
+  // Wait for the SDK to load
+  document.addEventListener("DOMContentLoaded", function () {
+    paypal.Buttons({
+      createOrder: function (data, actions) {
+        // Fetch the cart total from your page
+        const total = document.getElementById("cartTotal").innerText;
+
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: total
+            }
+          }]
+        });
+      },
+      onApprove: function (data, actions) {
+        return actions.order.capture().then(function (details) {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+          // Optional: store payment info in Firebase or redirect user
+        });
+      },
+      onError: function (err) {
+        console.error("PayPal error:", err);
+        alert("Payment failed. Please try again.");
+      }
+    }).render('#paypal-button-container');
+  });
+</script>
 
   <script src="js/cart.js"></script>
 
