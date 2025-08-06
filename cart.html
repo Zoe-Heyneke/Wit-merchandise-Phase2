@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Cart - Women in Tech</title>
-   <script src="https://www.paypal.com/sdk/js?client-id=AfnQ1Nw-f8JvIFsk9l0Z1VhRM7XJ48Q4XXpVaQruVwdTkb98RBjjuuOVM_7hRNGE17QwBdooXh1vGCLc&currency=ZAR&disable-funding=card"></script>
+   <script src="https://www.paypal.com/sdk/js?client-id=AfnQ1Nw-f8JvIFsk9l0Z1VhRM7XJ48Q4XXpVaQruVwdTkb98RBjjuuOVM_7hRNGE17QwBdooXh1vGCLc&currency=ZAR"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
  
@@ -109,9 +109,9 @@
       <h3>Select Payment Method</h3>
       <select id="paymentMethod">
         <option value="eft">EFT</option>
-        <option value="paypal">PayPal</option>
+        <!--<option value="payfast">PayFast</option>
         <option value="zapper">Zapper</option>
-        <option value="snapscan">SnapScan</option>
+        <option value="snapscan">SnapScan</option> -->
       </select>
       <br><br>
       <button onclick="checkout()">Checkout</button>
@@ -128,17 +128,12 @@
         <p>Please send proof of payment to: info@womenintech.org.za</p>
       </div>
 
-      <div id="paypal" class="payment-box" style="display: none;">
-        <h4>Pay with PayPal</h4>
-       <div id="paypal-button-container" style="display: none;"></div>
-      </div>
+       <div class="coming-soon-section">
+        <div class="coming-soon-card">
+         <h2> PayFast and Zapper </h2>
+          <p>Coming Soon</p>
+         </div>
 
-      <div id="zapper" class="payment-box" style="display: none;">
-        <h4>Pay with Zapper / SnapScan</h4>
-        <p>Scan the QR code below to complete payment.</p>
-        <img src="images/zapper-qr.png" alt="Zapper QR" width="200">
-      </div>
-    </div>
   </main>
 
   <footer>
