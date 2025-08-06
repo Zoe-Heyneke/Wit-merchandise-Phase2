@@ -128,9 +128,9 @@
     // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyCexbP2azBROO_qDR9_W0YBZxN-5FBJp94",
-      authDomain: "women-in-tech-merch-f5cdd.firebaseapp.com",
-      projectId: "women-in-tech-merch-f5cdd",
-      storageBucket: "women-in-tech-merch-f5cdd.firebasestorage.app",
+      authDomain: "women-in-tech-f5cdd.firebaseapp.com",
+      projectId: "women-in-tech-f5cdd",
+      storageBucket: "women-in-tech-f5cdd.firebasestorage.app",
       messagingSenderId: "794639636199",
       appId: "1:794639636199:web:3d898c3fe71d1098d9f442"
     };
@@ -155,6 +155,8 @@
             phone: document.getElementById("phoneNumber").value,
             address: {
               street: document.getElementById("street").value,
+              buildingType: document.getElementById("buildingType").value,
+              neighborhood: document.getElementById("neighborhood").value,
               city: document.getElementById("city").value,
               postalCode: document.getElementById("postalCode").value
             }
@@ -162,6 +164,7 @@
         })
         .then(() => alert("Account created!"))
         .catch((err) => alert(err.message));
+
     });
 
     // Sign In
