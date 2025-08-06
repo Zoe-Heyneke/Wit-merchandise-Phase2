@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Cart - Women in Tech</title>
-   <script src="https://www.paypal.com/sdk/js?client-id=AfnQ1Nw-f8JvIFsk9l0Z1VhRM7XJ48Q4XXpVaQruVwdTkb98RBjjuuOVM_7hRNGE17QwBdooXh1vGCLc&currency=ZAR"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
  
@@ -125,7 +124,7 @@
         <p><strong>Account Name:</strong> South Africa Chapter Women in Tech NPC</p>
         <p><strong>Account Number:</strong> 62869256208</p>
         <p><strong>Branch Code:</strong> 201709</p>
-        <p>Please send proof of payment to: info@womenintech.org.za</p>
+        <p>Please send proof of payment to: <a href="mailto:melissa@women-in-tech.org">melissa@women-in-tech.org</a></p>
       </div>
 
        <div class="coming-soon-section">
@@ -133,6 +132,8 @@
          <h2> PayFast and Zapper </h2>
           <p>Coming Soon</p>
          </div>
+         </div>
+    </div>
 
   </main>
 
@@ -155,8 +156,12 @@
       </div>
       <div class="footer-contact">
         <h3>Contact Us</h3>
-        <p>Email: info@womenintech.org.za</p>
-        <p>Phone: +27</p>
+        <p>
+          Email: 
+          <a href="mailto:south-africa@women-in-tech.org">south-africa@women-in-tech.org</a> 
+          or 
+          <a href="mailto:melissa@women-in-tech.org">melissa@women-in-tech.org</a>
+        </p>
         <p>Address: South Africa</p>
       </div>
     </div>
@@ -186,9 +191,9 @@
     const paymentSelect = document.getElementById("paymentMethod");
     const paymentBoxes = {
       eft: document.getElementById("eft"),
-      paypal: document.getElementById("paypal"),
-      zapper: document.getElementById("zapper")
+      //zapper: document.getElementById("zapper") 
     };
+
     paymentSelect.addEventListener("change", function () {
       const selected = this.value;
       for (const method in paymentBoxes) paymentBoxes[method].style.display = "none";
@@ -416,67 +421,16 @@
       shippingFormEl.style.display = useProfileAddressEl.checked ? "none" : "block";
     });
 
-    function initPayPalButtons() {
-      paypal.Buttons({
-        style: {
-          layout: 'vertical',
-          color: 'blue',
-          shape: 'rect',
-          label: 'paypal'
-        },
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                currency_code: 'ZAR',
-                value: totalPrice.toFixed(2)
-              }
-            }]
-          });
-        },
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-            alert('Transaction completed by ' + (details.payer.name?.given_name || 'buyer'));
-            checkout(); // your existing order logic
-          });
-        },
-        onCancel: function() {
-          alert('Payment canceled');
-        },
-        onError: function(err) {
-          console.error(err);
-          alert('Error during PayPal payment');
-        }
-      }).render('#paypal-button-container');
+      paymentSelect.addEventListener('change', function() {
+    const selected = this.value;
+    for (const method in paymentBoxes) {
+      paymentBoxes[method].style.display = 'none';
     }
+    if (paymentBoxes[selected]) paymentBoxes[selected].style.display = 'block';
+  });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      paymentSelect.dispatchEvent(new Event('change'));
-      loadCart();
-      shippingFormEl.style.display = useProfileAddressEl.checked ? 'none' : 'block';
+    
 
-      // Pre-render PayPal button early into hidden container
-      if (window.paypal) {
-        initPayPalButtons();
-      } else {
-        // Wait for SDK script to load
-        const script = document.querySelector('script[src*="paypal.com/sdk/js"]');
-        script && script.addEventListener('load', initPayPalButtons);
-      }
-    });
-
-    paymentSelect.addEventListener('change', function() {
-      const selected = this.value;
-      for (const method in paymentBoxes) {
-        paymentBoxes[method].style.display = 'none';
-      }
-      if (paymentBoxes[selected]) paymentBoxes[selected].style.display = 'block';
-
-      if (selected === 'paypal') {
-        // Show button container when PayPal is selected
-        document.getElementById('paypal-button-container').style.display = 'block';
-      }
-    });
   
   </script>
 
