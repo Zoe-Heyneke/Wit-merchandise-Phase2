@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Products - Women in Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <a href="index.html">
+        <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#how-it-works">How it Works</a>
+      <a href="products.html" class="underlined">Products</a>
+      <a href="inspired.html">Get Inspired</a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a> 
+      <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+    </nav>
+  </header>
+  <main>
+    <h1>Product Catalog</h1>
+    <div class="product-controls">
+      <div class="search-group">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <button id="searchBtn" aria-label="Search">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+      
+      <select id="categoryFilter">
+        <option value="all">All Categories</option>
+        <option value="shirts">T-Shirts</option>
+        <option value="hoodies">Hoodies</option>
+        <option value="accessories">Accessories</option>
+      </select>
+    </div>
+
+    <div id="productList" class="product-list">
+      <div class="product-card" data-category="shirts">
+        <img src="images/t-shirt-black.png" alt="T-shirt" class="product-image">
+        <h3>T-shirt</h3>
+        <p>100% Cotton, Unisex fit</p>
+        <p class="price">R175</p>
+
+        <!-- Color Options -->
+        <div class="color-options">
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-black.png" style="background:black"></button>
+            <span>Black</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-green.png" style="background:green"></button>
+            <span>Green</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-grey.png" style="background:grey"></button>
+            <span>Grey</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-pink.png" style="background:pink"></button>
+            <span>Pink</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="t-shirt-white.png" style="background:white"></button>
+            <span>White</span>
+          </div>
+        </div>
+
+
+        <!-- Customize -->
+        <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
+
+        <div class="customize-options" style="display: none;">
+          <label>Size:</label>
+          <select class="size-select">
+            <option value="">Select size</option>
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XL">XXL</option>
+            <option value="XL">XXXL</option>
+          </select>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+
+
+      <div class="product-card" data-category="hoodies">
+        <img src="images/hoodie-black.png" alt="Hoodie" class="product-image">
+        <h3>Hoodie</h3>
+        <p>Premium Fleece</p>
+        <p class="price">R600</p>
+
+        <div class="color-options">
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-black.png" style="background:black"></button>
+            <span>Black</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-grey.png" style="background:grey"></button>
+            <span>Grey</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-red.png" style="background:red"></button>
+            <span>Red</span>
+          </div>
+          <div class="color-option">
+            <button class="color-btn" data-image="hoodie-white.png" style="background:white"></button>
+            <span>White</span>
+          </div>
+        </div>
+
+
+        <button class="customize-btn" onclick="toggleCustomize(this)">Customize</button>
+
+        <div class="customize-options" style="display: none;">
+          <label>Size:</label>
+          <select class="size-select">
+            <option value="">Select size</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XL">XXL</option>
+            <option value="XL">XXXL</option>
+          </select>
+          <button class="add-to-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+
+    </div>
+
+    <p id="noResults" style="text-align:center; display:none; color: grey;">No products match your search.</p>
+
+  </main>
+
+  <footer>
+        <div class="footer-container">
+            <div class="footer-left">
+            <a href="index.html">
+                <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+            </a>
+            <p>Empowering women in technology with confidence and excellence.​</p>
+            </div>
+
+            <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="index.html">Home</a>
+            <a href="index.html#how-it-works">How it Works</a>
+            <a href="products.html">Products</a>
+            <a href="inspired.html">Get Inspired</a>
+            <a href="cart.html">Cart</a>
+            <a href="profile.html">Profile</a>
+            </div>
+
+            <div class="footer-contact">
+              <h3>Contact Us</h3>
+              <p>
+                Email: 
+                <a href="mailto:south-africa@women-in-tech.org">south-africa@women-in-tech.org</a> 
+                or 
+                <a href="mailto:melissa@women-in-tech.org">melissa@women-in-tech.org</a>
+              </p>
+              <p>Address: South Africa</p>
+            </div>
+        </div>
+    </footer>
+
+  <script src="js/products.js"></script>
+
+  <script>
+    // Handle Color Selection (update image)
+    document.querySelectorAll(".color-btn").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const imageFile = this.getAttribute("data-image");
+        const card = this.closest(".product-card");
+        const productImage = card.querySelector(".product-image");
+        productImage.src = "images/" + imageFile;
+      });
+    });
+
+
+    // Toggle customize panel per product
+    function toggleCustomize(button) {
+      const card = button.closest('.product-card');
+      const options = card.querySelector('.customize-options');
+      options.style.display = (options.style.display === "none" || options.style.display === "") ? "block" : "none";
+    }
+
+    // Perform search (shared for input and button)
+    function performSearch() {
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".product-card");
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const title = card.querySelector("h3").textContent.toLowerCase();
+        const allParagraphs = Array.from(card.querySelectorAll("p")).map(p => p.textContent.toLowerCase()).join(" ");
+
+        if (title.includes(searchTerm) || allParagraphs.includes(searchTerm)) {
+          card.style.display = "block";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      const noResults = document.getElementById("noResults");
+      if (noResults) {
+        noResults.style.display = (visibleCount === 0) ? "block" : "none";
+      }
+    }
+
+    function filterByCategory() {
+      const selectedCategory = document.getElementById("categoryFilter").value;
+      const cards = document.querySelectorAll(".product-card");
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const category = card.getAttribute("data-category");
+
+        if (selectedCategory === "all" || category === selectedCategory) {
+          card.style.display = "block";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      const noResults = document.getElementById("noResults");
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    // Run on typing
+    document.getElementById("searchInput").addEventListener("input", performSearch);
+
+    // Run on button click (make sure the button exists in your HTML)
+    document.getElementById("searchBtn").addEventListener("click", performSearch);
+    
+    document.getElementById("categoryFilter").addEventListener("change", filterByCategory);
+  
+
+    // Utility function to save to localStorage
+    function saveToCart(item) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(item);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("Item added to cart!");
+    }
+
+    // Add event listeners to all "Add to Cart" buttons
+    document.querySelectorAll(".add-to-cart-btn").forEach(button => {
+      button.addEventListener("click", function () {
+        const card = this.closest(".product-card");
+        const productName = card.querySelector("h3").textContent;
+        const priceText = card.querySelector(".price").textContent;
+        const price = parseFloat(priceText.replace("R", ""));
+        const image = card.querySelector(".product-image").src;
+
+        const size = card.querySelector(".size-select").value;
+        if (!size) {
+          alert("Please select a size.");
+          return;
+        }
+
+        const selectedColorButton = card.querySelector(".color-btn[style*='border']");
+        const color = selectedColorButton ? selectedColorButton.nextElementSibling.textContent : "Default";
+
+        const item = {
+          name: productName,
+          price: price,
+          size: size,
+          color: color,
+          image: image
+        };
+
+        saveToCart(item);
+      });
+    });
+
+
+  </script>
+
+
+</body>
+</html>

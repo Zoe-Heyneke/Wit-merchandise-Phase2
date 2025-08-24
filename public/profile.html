@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile - Women in Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <a href="index.html">
+        <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#how-it-works">How it Works</a>
+      <a href="products.html">Products</a>
+      <a href="inspired.html">Get Inspired</a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a> 
+      <a href="profile.html" class="underlined"><i class="fa-solid fa-user"></i></a>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <h1>User Profile</h1>
+  <div class="user-account">
+  <h2>Create Account or Sign In</h2>
+
+  <!-- Switch Tabs -->
+  <div class="auth-switch">
+    <div id="createTab" class="auth-tab active">Create Account</div>
+    <div id="signInTab" class="auth-tab">Sign In</div>
+  </div>
+
+  <!-- Sign Up Form -->
+  <div id="signup-section" class="auth-form">
+    <h3>Create an Account</h3>
+    <form>
+      <input type="text" id="name" placeholder="Name" required />
+      <input type="text" id="surname" placeholder="Surname" required />
+      <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <input type="text" id="street" placeholder="Street" required />
+      <select id="buildingType" required>
+        <option value="">Building Type</option>
+        <option value="Apartment">Apartment</option>
+        <option value="House">House</option>
+        <option value="Complex">Complex</option>
+        <option value="Townhouse">Townhouse</option>
+        <option value="Office">Office</option>
+        <option value="Other">Other</option>
+      </select>
+      <input type="text" id="neighborhood" placeholder="Neighborhood" required />
+      <input type="text" id="city" placeholder="City" required />
+      <input type="text" id="postalCode" placeholder="Postal Code" required />
+      <button type="submit" id="signupBtn">Sign Up</button>
+    </form>
+  </div>
+  
+
+  <!-- Sign In Form -->
+  <div id="signin-section" class="auth-form" style="display: none;">
+    <h3>Already have an account?</h3>
+    <form>
+      <input type="email" id="signinEmail" placeholder="Email" required />
+      <input type="password" id="signinPassword" placeholder="Password" required />
+      <button type="submit" id="signinBtn">Sign In</button>
+    </form>
+    <p>OR</p>
+    <button id="googleSignInBtn">Sign in with Google</button>
+  </div>
+</div>
+
+<div class="coming-soon-section">
+  <div class="coming-soon-card">
+    <h2>Track Orders</h2>
+    <p>Coming Soon</p>
+  </div>
+
+  <div class="coming-soon-card">
+    <h2>Order History</h2>
+    <p>Coming Soon</p>
+  </div>
+</div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <a href="index.html">
+            <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+        </a>
+        <p>Empowering women in technology with confidence and excellence.​</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How it Works</a>
+        <a href="products.html">Products</a>
+        <a href="inspired.html">Get Inspired</a>
+        <a href="cart.html">Cart</a>
+        <a href="profile.html">Profile</a>
+      </div>
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <p>
+          Email: 
+          <a href="mailto:south-africa@women-in-tech.org">south-africa@women-in-tech.org</a> 
+          or 
+          <a href="mailto:melissa@women-in-tech.org">melissa@women-in-tech.org</a>
+        </p>
+        <p>Address: South Africa</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Firebase compat scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCexbP2azBROO_qDR9_W0YBZxN-5FBJp94",
+      authDomain: "women-in-tech-f5cdd.firebaseapp.com",
+      projectId: "women-in-tech-f5cdd",
+      storageBucket: "women-in-tech-f5cdd.firebasestorage.app",
+      messagingSenderId: "794639636199",
+      appId: "1:794639636199:web:3d898c3fe71d1098d9f442"
+    };
+
+    // Init Firebase
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Sign Up
+    document.getElementById("signupBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signupEmail").value;
+      const password = document.getElementById("signupPassword").value;
+      const name = document.getElementById("name").value;
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCred) => {
+          return db.collection("users").doc(userCred.user.uid).set({
+            name,
+            email,
+            phone: document.getElementById("phoneNumber").value,
+            address: {
+              street: document.getElementById("street").value,
+              buildingType: document.getElementById("buildingType").value,
+              neighborhood: document.getElementById("neighborhood").value,
+              city: document.getElementById("city").value,
+              postalCode: document.getElementById("postalCode").value
+            }
+          });
+        })
+        .then(() => alert("Account created!"))
+        .catch((err) => alert(err.message));
+
+    });
+
+    // Sign In
+    document.getElementById("signinBtn").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signinEmail").value;
+      const password = document.getElementById("signinPassword").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Logged in!");
+          window.location.href = "products.html";
+        })
+        .catch((err) => alert(err.message));
+    });
+  </script>
+
+  <script>
+    // Tab switching logic
+    const createTab = document.getElementById("createTab");
+    const signInTab = document.getElementById("signInTab");
+    const signupSection = document.getElementById("signup-section");
+    const signinSection = document.getElementById("signin-section");
+
+    createTab.addEventListener("click", () => {
+      createTab.classList.add("active");
+      signInTab.classList.remove("active");
+      signupSection.style.display = "block";
+      signinSection.style.display = "none";
+    });
+
+    signInTab.addEventListener("click", () => {
+      signInTab.classList.add("active");
+      createTab.classList.remove("active");
+      signinSection.style.display = "block";
+      signupSection.style.display = "none";
+    });
+  </script>
+
+
+</body>
+</html>
