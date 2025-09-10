@@ -23,6 +23,11 @@
       <a href="profile.html"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
+  <!-- Text Reader Button -->
+<button onclick="readAllText()" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; padding: 10px 15px; background-color:  #030039; color: white; border: none; border-radius: 5px; cursor: pointer; box-shadow: white;">
+  🔊 Read All
+</button>
+
 
   <div class="popup-message" id="popupMessage">
   <p>
@@ -117,6 +122,17 @@
     closePopup();
   }, 13000);
 </script>
+
+<script>
+  function readAllText() {
+    const allText = document.body.innerText;
+    const speech = new SpeechSynthesisUtterance(allText);
+    speech.lang = 'en-ZA'; // South African English
+    window.speechSynthesis.cancel(); // Stop any ongoing speech
+    window.speechSynthesis.speak(speech);
+  }
+</script>
+
 
 </body>
 </html>
