@@ -167,90 +167,6 @@
     </div>
   </footer>
 
-  <!--Sending emails-->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script> 
-  <script>
-    // Replace with your real keys/IDs from EmailJS
-    const EMAILJS_PUBLIC_KEY = "EbpMVExnFbfQMt_q-"; 
-    const EMAILJS_SERVICE_ID = "service_2t7hn4f"; 
-    const EMAILJS_TEMPLATE_CUSTOMER = "template_05m889k"; 
-    const EMAILJS_TEMPLATE_ADMIN = "template_mv9r9ox"; 
-
-    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-
-    // Helpers to format email content
-    function money(n) {
-      return Number(n || 0).toFixed(2);
-    }
-
-    function buildItemsBlock(items = []) {
-      return items.map(it => {
-        const qty = it.quantity || 1;
-        const size = it.size ? ` (${it.size})` : "";
-        const color = it.color ? ` [${it.color}]` : "";
-        const line = (Number(it.price || 0) * qty);
-        return `• ${qty} × ${it.name || 'Item'}${size}${color} — R${money(line)}`;
-      }).join("\n");
-    }
-
-    function buildShippingBlock(s = {}) {
-      const line2 = [s.neighborhood, s.city].filter(Boolean).join(", ");
-      return [
-        s.name || "",
-        s.street || "",
-        line2,
-        s.postalCode || "",
-        s.phone ? `Phone: ${s.phone}` : ""
-      ].filter(Boolean).join("\n");
-    }
-
-    // Sends both emails (customer + Melissa)
-    async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod }) {
-      const items_block = buildItemsBlock(items);
-      const shipping_block = buildShippingBlock(shipping);
-
-      const to_email_customer = shipping?.email || "";
-      const to_name_customer = shipping?.name || "Customer";
-
-      // Customer template
-      const paramsCustomer = {
-        to_email: to_email_customer,
-        to_name: to_name_customer,
-        order_id: orderId,
-        items_block,
-        total: money(total),
-        payment_method: paymentMethod,
-        shipping_block
-      };
-
-      // Melissa (admin) template
-      const paramsAdmin = {
-        to_email: "melissa@women-in-tech.org",
-        to_name: "Melissa",
-        order_id: orderId,
-        items_block,
-        total: money(total),
-        payment_method: paymentMethod,
-        shipping_block
-      };
-
-      const sends = [
-        to_email_customer 
-          ? emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, paramsCustomer) 
-          : Promise.resolve(),
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, paramsAdmin)
-      ];
-
-      try {
-        await Promise.allSettled(sends);
-      } catch (e) {
-        console.warn("EmailJS send error:", e);
-      }
-    }
-  </script>
-
-
-
   <!-- Firebase compat -->
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
@@ -474,7 +390,7 @@
 
       // Save order
       try {
-        const docRef = await db.collection("orders").add({
+        await db.collection("orders").add({
           userId: user.uid,
           items: cartItems,
           total: Number(totalPrice.toFixed(2)),
@@ -483,19 +399,9 @@
           createdAt: new Date()
         });
 
-        // Send emails
-        await sendOrderEmails({
-          orderId: docRef.id,
-          shipping,
-          items: cartItems,
-          total: totalPrice,
-          paymentMethod
-        });
-
-        alert("Order placed successfully! We've emailed you a summary.");
+        alert("Order placed successfully!");
         localStorage.removeItem("cart");
         window.location.href = "products.html";
-
       } catch (e) {
         console.error(e);
         alert("Sorry, we could not place your order. Please try again.");
@@ -527,6 +433,7 @@
 
   
   </script>
+
   
 </body>
 </html>
