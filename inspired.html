@@ -45,6 +45,11 @@
         <button type="submit">Submit Design</button>
       </form>
     </section>
+
+    <button id="speechBtn" onclick="readAllText()" class="read-btn">
+      🔊 Read All Text
+    </button>
+
   </main>
 
 
@@ -81,5 +86,49 @@
     </footer>
 
   <script src="js/inspired.js"></script>
+
+  <script>
+    let speech;
+    let isSpeaking = false;
+    let isPaused = false;
+
+    function readAllText() {
+      const btn = document.getElementById("speechBtn");
+
+      // Case 1: Already speaking and not paused → Pause
+      if (isSpeaking && !isPaused) {
+        window.speechSynthesis.pause();
+        isPaused = true;
+        btn.textContent = "▶ Resume";
+        return;
+      }
+
+      // Case 2: Paused → Resume
+      if (isSpeaking && isPaused) {
+        window.speechSynthesis.resume();
+        isPaused = false;
+        btn.textContent = "⏸ Pause";
+        return;
+      }
+
+      // Case 3: Not speaking → Start new speech
+      const allText = document.body.innerText;
+      speech = new SpeechSynthesisUtterance(allText);
+      speech.lang = "en-ZA"; // South African English
+
+      speech.onend = () => {
+        isSpeaking = false;
+        isPaused = false;
+        btn.textContent = "🔊 Read"; // Reset when finished
+      };
+
+      window.speechSynthesis.cancel(); // stop any queued speech
+      window.speechSynthesis.speak(speech);
+
+      isSpeaking = true;
+      isPaused = false;
+      btn.textContent = "⏸ Pause";
+    }
+  </script>
 </body>
 </html>
