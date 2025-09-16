@@ -32,7 +32,8 @@ nav a {
 nav a:hover {
   text-decoration: underline;
 }
- .read-btn {
+
+.read-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -46,8 +47,18 @@ nav a:hover {
   border-radius: 50px;
   cursor: pointer;
   box-shadow: 0px 4px 6px rgba(0,0,0,0.2);
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 50%; 
+  max-width: 200px;           
 }
+
+/* Hover effect */
+.read-btn:hover {
+  background-color: #e5cf67;  
+  color: #030039;            
+  transform: scale(1.05);
+}
+
 
 .nav-read-btn {
   background: none;       /* no background */
