@@ -546,15 +546,39 @@ main h1{
   padding: 15px;
   background: #f0f0f0;
   border-radius: 10px;
+  max-width: 1000px;     /* set block width */
+  margin-left: auto;    /* center block */
+  margin-right: auto;
 }
 
 #checkoutSection select,
-#checkoutSection button {
+#checkoutSection button,
+#checkoutSection a.checkout-btn {
   margin-top: 10px;
   padding: 8px;
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
+}
+
+.checkout-btn {
+  background-color: #030ba6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  width: 100%;            
+  display: inline-block;  
+  text-align: center;
+  text-decoration: none;
+}
+
+.checkout-btn:hover {
+  background-color: #05f2f2;
+  color: #030039;
 }
 
 .payment-box {
@@ -700,14 +724,17 @@ button:hover {
 }
 
 .order-summary .checkout-btn {
-  display: inline-block;
+  display: block;
   background-color: #030ba6;
+  width: 100%;
+  text-align: center; 
   color: #fff;
   font-weight: bold;
-  padding: .7rem 1.5rem;
+  padding: 0.7rem 0;
   text-decoration: none;
   border-radius: 6px;
   margin-top: 1rem;
+  box-sizing: border-box; 
   transition: all 0.3s ease;
 }
 

@@ -5,6 +5,7 @@
   <title>Checkout - Women in Tech</title>
   <link rel="stylesheet" href="style.css"> 
   <script src="https://kit.fontawesome.com/a2e0e6ad5f.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -12,11 +13,12 @@
         <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
     </a>
     <nav>
-      <a href="index.html" class="underlined">Home</a>
+      <a href="index.html">Home</a>
       <a href="index.html#how-it-works">How it Works</a>
       <a href="products.html">Products</a>
       <a href="inspired.html">Get Inspired</a>
       <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a> 
+      <a href="checkout.html" class="underlined">Checkout</a>
       <a href="profile.html"><i class="fa-solid fa-user"></i></a>
     </nav>
   </header>
@@ -99,6 +101,10 @@
     <button onclick="proceedPayment()" class="checkout-btn">
       Confirm & Pay
     </button>
+
+    <button id="speechBtn" onclick="readAllText()" class="read-btn">
+      🔊 Read All Text
+    </button>
   </main>
 
   <footer>
@@ -131,6 +137,84 @@
     </div>
   </footer>
 
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // --- Firebase Config (same project you used on profile page) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyCexbP2azBROO_qDR9_W0YBZxN-5FBJp94",
+      authDomain: "women-in-tech-f5cdd.firebaseapp.com",
+      projectId: "women-in-tech-f5cdd",
+      storageBucket: "women-in-tech-f5cdd.firebasestorage.app",
+      messagingSenderId: "794639636199",
+      appId: "1:794639636199:web:3d898c3fe71d1098d9f442"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+  </script>
+
+  <!-- Shipping: use profile or custom form -->
+  <script>
+    // Toggle between profile address and manual shipping form
+    const useProfileAddressEl = document.getElementById("useProfileAddress");
+    const shippingFormEl = document.getElementById("shippingForm");
+    const profileAddrPreviewEl = document.getElementById("profileAddrPreview");
+    const profileAddrMissingEl = document.getElementById("profileAddrMissing");
+
+    useProfileAddressEl.addEventListener("change", () => {
+      const useProfile = useProfileAddressEl.checked;
+      shippingFormEl.style.display = useProfile ? "none" : "block";
+    });
+
+    // Load profile address like cart items (compat mode)
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        profileAddrPreviewEl.innerHTML = `<span class="addr-empty">Please sign in to use your profile address.</span>`;
+        return;
+      }
+
+      try {
+        const userSnap = await db.collection("users").doc(user.uid).get();
+
+        if (!userSnap.exists) {
+          profileAddrPreviewEl.classList.add("hidden");
+          profileAddrMissingEl.classList.remove("hidden");
+          return;
+        }
+
+        const data = userSnap.data();
+        const address = data.address || {};
+        const lines = [
+          data.name || user.email,
+          address.street || "",
+          [address.neighborhood, address.city].filter(Boolean).join(", "),
+          address.postalCode || ""
+        ].filter(Boolean);
+
+        if (lines.length) {
+          profileAddrPreviewEl.innerHTML = `<p>${lines.join("<br>")}</p>`;
+          profileAddrPreviewEl.classList.remove("hidden");
+          profileAddrMissingEl.classList.add("hidden");
+        } else {
+          profileAddrPreviewEl.classList.add("hidden");
+          profileAddrMissingEl.classList.remove("hidden");
+        }
+
+      } catch (err) {
+        console.error("Error fetching address:", err);
+        profileAddrPreviewEl.innerHTML = `<span class="addr-empty">Could not load profile address. You can manually enter shipping details below.</span>`;
+      }
+    });
+
+
+
+  </script>
+
   <script>
     // Example: Load total from localStorage or your cart script
     const orderTotal = localStorage.getItem("cartTotal") || "0.00";
@@ -158,7 +242,7 @@
       }
 
       if (method === "payfast") {
-        // Redirect to PayFast sandbox for now
+        // Redirect to PayFast sandbox for nows
         const payfastForm = document.createElement("form");
         payfastForm.method = "post";
         payfastForm.action = "https://sandbox.payfast.co.za/eng/process";
@@ -186,5 +270,50 @@
       }
     }
   </script>
+
+  <script>
+    let speech;
+    let isSpeaking = false;
+    let isPaused = false;
+
+    function readAllText() {
+      const btn = document.getElementById("speechBtn");
+
+      // Case 1: Already speaking and not paused → Pause
+      if (isSpeaking && !isPaused) {
+        window.speechSynthesis.pause();
+        isPaused = true;
+        btn.textContent = "▶ Resume";
+        return;
+      }
+
+      // Case 2: Paused → Resume
+      if (isSpeaking && isPaused) {
+        window.speechSynthesis.resume();
+        isPaused = false;
+        btn.textContent = "⏸ Pause";
+        return;
+      }
+
+      // Case 3: Not speaking → Start new speech
+      const allText = document.body.innerText;
+      speech = new SpeechSynthesisUtterance(allText);
+      speech.lang = "en-ZA"; // South African English
+
+      speech.onend = () => {
+        isSpeaking = false;
+        isPaused = false;
+        btn.textContent = "🔊 Read"; // Reset when finished
+      };
+
+      window.speechSynthesis.cancel(); // stop any queued speech
+      window.speechSynthesis.speak(speech);
+
+      isSpeaking = true;
+      isPaused = false;
+      btn.textContent = "⏸ Pause";
+    }
+  </script>
+
 </body>
 </html>
