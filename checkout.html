@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - Women in Tech</title>
+  <link rel="stylesheet" href="styles.css"> <!-- your stylesheet -->
+  <script src="https://kit.fontawesome.com/a2e0e6ad5f.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <h2>Checkout Summary</h2>
+  </header>
+
+  <main class="checkout-container">
+    <!-- Order Summary -->
+    <section class="order-summary">
+      <h3>Order Summary</h3>
+      <p><strong>Total Amount:</strong> R<span id="orderTotal">0.00</span></p>
+    </section>
+
+    <!-- Payment Options -->
+    <section class="payment-options">
+      <h3>Select Payment Method</h3>
+      <select id="paymentMethod" onchange="showPaymentDetails()">
+        <option value="" disabled selected>Choose a method</option>
+        <option value="eft">EFT (Bank Transfer)</option>
+        <option value="payfast">PayFast (Online Payment)</option>
+      </select>
+
+      <!-- EFT Box -->
+      <div id="eft" class="payment-box" style="display:none;">
+        <h4>EFT Payment</h4>
+        <p>Please transfer the amount to:</p>
+        <ul>
+          <li>Bank: FNB</li>
+          <li>Account No: 123456789</li>
+          <li>Branch Code: 250655</li>
+          <li>Reference: Your Order Number</li>
+        </ul>
+      </div>
+
+      <!-- PayFast Box -->
+      <div id="payfast" class="payment-box" style="display:none;">
+        <h4>PayFast Secure Payment</h4>
+        <p>You’ll be redirected to PayFast to complete your payment securely.</p>
+      </div>
+    </section>
+
+    <!-- Confirm Button -->
+    <button onclick="proceedPayment()" class="checkout-btn">
+      Confirm & Pay
+    </button>
+  </main>
+
+  <script>
+    // Example: Load total from localStorage or your cart script
+    const orderTotal = localStorage.getItem("cartTotal") || "0.00";
+    document.getElementById("orderTotal").innerText = orderTotal;
+
+    function showPaymentDetails() {
+      const method = document.getElementById("paymentMethod").value;
+      document.querySelectorAll(".payment-box").forEach(box => box.style.display = "none");
+      if (method) {
+        document.getElementById(method).style.display = "block";
+      }
+    }
+
+    function proceedPayment() {
+      const method = document.getElementById("paymentMethod").value;
+      if (!method) {
+        alert("Please select a payment method.");
+        return;
+      }
+
+      if (method === "eft") {
+        alert("Order placed! Please EFT the total and send proof of payment.");
+        // Save order + mark as pending
+        window.location.href = "thankyou.html";
+      }
+
+      if (method === "payfast") {
+        // Redirect to PayFast sandbox for now
+        const payfastForm = document.createElement("form");
+        payfastForm.method = "post";
+        payfastForm.action = "https://sandbox.payfast.co.za/eng/process";
+
+        const fields = {
+          merchant_id: "10000100",
+          merchant_key: "46f0cd694581a",
+          return_url: window.location.origin + "/success.html",
+          cancel_url: window.location.origin + "/cancel.html",
+          notify_url: window.location.origin + "/notify.php",
+          amount: orderTotal,
+          item_name: "Women in Tech Order"
+        };
+
+        for (const key in fields) {
+          const input = document.createElement("input");
+          input.type = "hidden";
+          input.name = key;
+          input.value = fields[key];
+          payfastForm.appendChild(input);
+        }
+
+        document.body.appendChild(payfastForm);
+        payfastForm.submit();
+      }
+    }
+  </script>
+</body>
+</html>
