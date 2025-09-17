@@ -541,6 +541,49 @@ main h1{
   border-radius: 10px;
 }
 
+/* Cart item button styling */
+.cart-item .quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.cart-item .quantity-controls button {
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #030ba6;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+.cart-item .quantity-controls span {
+  min-width: 24px;
+  text-align: center;
+  font-weight: bold;
+  color: #030039;
+}
+
+.cart-item .remove-btn {
+  background: #b00020;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  margin-left: auto; /* pushes it to the far right */
+}
+
+.cart-item .remove-btn:hover {
+  background: #900018;
+}
+
+
 #checkoutSection {
   margin-top: 20px;
   padding: 15px;
