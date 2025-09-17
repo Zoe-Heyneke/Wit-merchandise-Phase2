@@ -217,7 +217,8 @@
 
   <script>
     // Example: Load total from localStorage or your cart script
-    const orderTotal = localStorage.getItem("cartTotal") || "0.00";
+    const rawTotal = localStorage.getItem("cartTotal") || "0";
+    const orderTotal = parseFloat(rawTotal).toFixed(2);
     document.getElementById("orderTotal").innerText = orderTotal;
 
     function showPaymentDetails() {
@@ -250,9 +251,9 @@
         const fields = {
           merchant_id: "10041065",
           merchant_key: "p1aaadaty2wvs",
-          return_url: window.location.origin + "/http://127.0.0.1:5500/index.html",
-          cancel_url: window.location.origin + "/http://127.0.0.1:5500/cart.html",
-          notify_url: window.location.origin + "/http://127.0.0.1:5500/cart.html",
+          return_url: window.location.origin + "/index.html",
+          cancel_url: window.location.origin + "/cart.html",
+          notify_url: window.location.origin + "/cart.html",
           amount: orderTotal,
           item_name: "Women in Tech Order"
         };
