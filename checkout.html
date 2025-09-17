@@ -8,7 +8,17 @@
 </head>
 <body>
   <header>
-    <h2>Checkout Summary</h2>
+    <a href="index.html">
+        <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+    </a>
+    <nav>
+      <a href="index.html" class="underlined">Home</a>
+      <a href="index.html#how-it-works">How it Works</a>
+      <a href="products.html">Products</a>
+      <a href="inspired.html">Get Inspired</a>
+      <a href="cart.html"><i class="fa-solid fa-cart-shopping"></i></a> 
+      <a href="profile.html"><i class="fa-solid fa-user"></i></a>
+    </nav>
   </header>
 
   <main class="checkout-container">
@@ -16,7 +26,44 @@
     <section class="order-summary">
       <h3>Order Summary</h3>
       <p><strong>Total Amount:</strong> R<span id="orderTotal">0.00</span></p>
+      <a href= "cart.html" class="checkout-btn">View More...</a>
     </section>
+
+    <!-- Shipping Section -->
+    <div class="shipping-section">
+      <h3>Shipping Address</h3>
+
+      <label style="display:flex;align-items:center;gap:.5rem;margin-top:.5rem;">
+        <input type="checkbox" id="useProfileAddress" checked>
+        <span>Use profile address</span>
+      </label>
+      <div id="profileAddrPreview" class="addr-preview small-note">Loading your profile address…</div>
+      <div id="profileAddrMissing" class="addr-preview addr-empty hidden">
+        No address found in your profile. Untick “Use profile address” to enter a shipping address.
+      </div>
+
+      <!-- Alternate shipping form -->
+      <div id="shippingForm" class="shipping-form">
+        <div class="shipping-row">
+          <input id="shipName" class="full" type="text" placeholder="Full Name">
+          <input id="shipPhone" type="tel" placeholder="Phone Number">
+          <input id="shipEmail" type="email" placeholder="Email">
+          <input id="shipStreet" class="full" type="text" placeholder="Street">
+          <select id="shipBuilding" >
+            <option value="">Building Type</option>
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Complex</option>
+            <option>Townhouse</option>
+            <option>Office</option>
+            <option>Other</option>
+          </select>
+          <input id="shipNeighborhood" type="text" placeholder="Neighborhood">
+          <input id="shipCity" type="text" placeholder="City">
+          <input id="shipPostal" type="text" placeholder="Postal Code">
+        </div>
+      </div>
+    </div>
 
     <!-- Payment Options -->
     <section class="payment-options">
@@ -30,13 +77,15 @@
       <!-- EFT Box -->
       <div id="eft" class="payment-box" style="display:none;">
         <h4>EFT Payment</h4>
-        <p>Please transfer the amount to:</p>
-        <ul>
-          <li>Bank: FNB</li>
-          <li>Account No: 123456789</li>
-          <li>Branch Code: 250655</li>
-          <li>Reference: Your Order Number</li>
-        </ul>
+        <div id="paymentDetails">
+        <h4>Bank Transfer Details</h4>
+        <p><strong>Bank:</strong> First National Bank (FNB)</p>
+        <p><strong>Account Name:</strong> South Africa Chapter Women in Tech NPC</p>
+        <p><strong>Account Number:</strong> 62869256208</p>
+        <p><strong>Branch Code:</strong> 201709</p>
+        <p>Please send proof of payment to: <a href="mailto:melissa@women-in-tech.org">melissa@women-in-tech.org</a></p>
+      
+    </div>
       </div>
 
       <!-- PayFast Box -->
@@ -51,6 +100,36 @@
       Confirm & Pay
     </button>
   </main>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-left">
+        <a href="index.html">
+          <img src="images/Logo_South Africa white.png" alt="Women in Tech" width="150" height="150">
+        </a>
+        <p>Empowering women in technology with confidence and excellence.​</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="index.html#how-it-works">How it Works</a>
+        <a href="products.html">Products</a>
+        <a href="inspired.html">Get Inspired</a>
+        <a href="cart.html">Cart</a>
+        <a href="profile.html">Profile</a>
+      </div>
+      <div class="footer-contact">
+        <h3>Contact Us</h3>
+        <p>
+          Email: 
+          <a href="mailto:south-africa@women-in-tech.org">south-africa@women-in-tech.org</a> 
+          or 
+          <a href="mailto:melissa@women-in-tech.org">melissa@women-in-tech.org</a>
+        </p>
+        <p>Address: South Africa</p>
+      </div>
+    </div>
+  </footer>
 
   <script>
     // Example: Load total from localStorage or your cart script
