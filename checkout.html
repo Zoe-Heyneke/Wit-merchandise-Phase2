@@ -217,82 +217,82 @@
     </script>
 
     <script>
-    async function proceedPayment() {
-      const user = auth.currentUser;
-      if (!user) {
-        alert("Please sign in first!");
-        window.location.href = "profile.html";
-        return;
-      }
-
-      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-      if (!cartItems.length) {
-        alert("Your cart is empty.");
-        return;
-      }
-
-      // Build shipping object
-      const useProfile = useProfileAddressEl.checked;
-      let shipping = {};
-
-      if (useProfile) {
-        const snap = await db.collection("users").doc(user.uid).get();
-        if (!snap.exists || !snap.data().address) {
-          alert("No saved profile address. Please enter manually.");
-          return;
-        }
-        const data = snap.data();
-        shipping = {
-          name: data.name || "",
-          email: data.email || user.email || "",
-          phone: data.phone || "",
-          ...data.address
-        };
-      } else {
-        shipping = {
-          name: document.getElementById("shipName").value.trim(),
-          email: document.getElementById("shipEmail").value.trim(),
-          phone: document.getElementById("shipPhone").value.trim(),
-          street: document.getElementById("shipStreet").value.trim(),
-          buildingType: document.getElementById("shipBuilding").value.trim(),
-          neighborhood: document.getElementById("shipNeighborhood").value.trim(),
-          city: document.getElementById("shipCity").value.trim(),
-          postalCode: document.getElementById("shipPostal").value.trim(),
-        };
-      }
-
-      const paymentMethod = document.getElementById("paymentMethod").value || "unspecified";
-      const total = cartItems.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-
-      try {
-        const docRef = await db.collection("orders").add({
-          userId: user.uid,
-          items: cartItems,
-          total,
-          paymentMethod,
-          shipping,
-          createdAt: new Date()
-        });
-
-        // Send emails
-        await sendOrderEmails({
-          orderId: docRef.id,
-          shipping,
-          items: cartItems,
-          total,
-          paymentMethod
-        });
-
-        alert("Order placed successfully! We've emailed you a summary.");
-        localStorage.removeItem("cart");
-        window.location.href = "products.html";
-
-      } catch (err) {
-        console.error(err);
-        alert("Something went wrong. Try again.");
-      }
+  async function proceedPayment() {
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Please sign in first!");
+      window.location.href = "profile.html";
+      return;
     }
-    </script>
+
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    if (!cartItems.length) {
+      alert("Your cart is empty.");
+      return;
+    }
+
+    // Build shipping object
+    const useProfile = useProfileAddressEl.checked;
+    let shipping = {};
+
+    if (useProfile) {
+      const snap = await db.collection("users").doc(user.uid).get();
+      if (!snap.exists || !snap.data().address) {
+        alert("No saved profile address. Please enter manually.");
+        return;
+      }
+      const data = snap.data();
+      shipping = {
+        name: data.name || "",
+        email: data.email || user.email || "",
+        phone: data.phone || "",
+        ...data.address
+      };
+    } else {
+      shipping = {
+        name: document.getElementById("shipName").value.trim(),
+        email: document.getElementById("shipEmail").value.trim(),
+        phone: document.getElementById("shipPhone").value.trim(),
+        street: document.getElementById("shipStreet").value.trim(),
+        buildingType: document.getElementById("shipBuilding").value.trim(),
+        neighborhood: document.getElementById("shipNeighborhood").value.trim(),
+        city: document.getElementById("shipCity").value.trim(),
+        postalCode: document.getElementById("shipPostal").value.trim(),
+      };
+    }
+
+    const paymentMethod = document.getElementById("paymentMethod").value || "unspecified";
+    const total = cartItems.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+    try {
+      const docRef = await db.collection("orders").add({
+        userId: user.uid,
+        items: cartItems,
+        total,
+        paymentMethod,
+        shipping,
+        createdAt: new Date()
+      });
+
+      // Send emails
+      await sendOrderEmails({
+        orderId: docRef.id,
+        shipping,
+        items: cartItems,
+        total,
+        paymentMethod
+      });
+
+      alert("Order placed successfully! We've emailed you a summary.");
+      localStorage.removeItem("cart");
+      window.location.href = "products.html";
+
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong. Try again.");
+    }
+  }
+  </script>
 
 
 
@@ -369,84 +369,81 @@
         profileAddrPreviewEl.innerHTML = `<span class="addr-empty">Could not load profile address. You can manually enter shipping details below.</span>`;
       }
     });
+
+
+
   </script>
-<!-- calculates the total -->
-  <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const orderTotalEl = document.getElementById("orderTotal");
-  
-  // Get cart from localStorage
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  
-  // Calculate total
-  let total = 0;
-  cart.forEach(item => {
-    const qty = item.quantity || 1;
-    total += item.price * qty;
-  });
-  
-  // Display total
-  orderTotalEl.textContent = total.toFixed(2);
-});
-</script>
-
 
   <script>
-    // Example: Load total from localStorage or your cart script
-    const rawTotal = localStorage.getItem("cartTotal") || "0";
-    const orderTotal = parseFloat(rawTotal).toFixed(2);
-    document.getElementById("orderTotal").innerText = orderTotal;
+      function loadCheckoutTotal() {
+        // Load cart from localStorage
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
-    function showPaymentDetails() {
-      const method = document.getElementById("paymentMethod").value;
-      document.querySelectorAll(".payment-box").forEach(box => box.style.display = "none");
-      if (method) {
-        document.getElementById(method).style.display = "block";
-      }
-    }
+        // Calculate total
+        const total = cartItems.reduce((sum, item) => {
+          const price = parseFloat(item.price) || 0;
+          const qty = item.quantity || 1;
+          return sum + price * qty;
+        }, 0);
 
-    function proceedPayment() {
-      const method = document.getElementById("paymentMethod").value;
-      if (!method) {
-        alert("Please select a payment method.");
-        return;
+        // Update checkout page
+        document.getElementById("orderTotal").innerText = total.toFixed(2);
+
+        return total; // so we can reuse it later
       }
 
-      if (method === "eft") {
-        alert("Order placed! Please EFT the total and send proof of payment.");
-        // Save order + mark as pending
-        window.location.href = "thankyou.html";
+      // Run this when checkout page loads
+      const orderTotal = loadCheckoutTotal();
+
+      function showPaymentDetails() {
+        const method = document.getElementById("paymentMethod").value;
+        document.querySelectorAll(".payment-box").forEach(box => box.style.display = "none");
+        if (method) {
+          document.getElementById(method).style.display = "block";
+        }
       }
 
-      if (method === "payfast") {
-        // Redirect to PayFast sandbox for nows
-        const payfastForm = document.createElement("form");
-        payfastForm.method = "post";
-        payfastForm.action = "https://sandbox.payfast.co.za/eng/process";
-
-        const fields = {
-          merchant_id: "10041065",
-          merchant_key: "p1aaadaty2wvs",
-          return_url: window.location.origin + "/index.html",
-          cancel_url: window.location.origin + "/cart.html",
-          notify_url: window.location.origin + "/cart.html",
-          amount: orderTotal,
-          item_name: "Women in Tech Order"
-        };
-
-        for (const key in fields) {
-          const input = document.createElement("input");
-          input.type = "hidden";
-          input.name = key;
-          input.value = fields[key];
-          payfastForm.appendChild(input);
+      function proceedPayment() {
+        const method = document.getElementById("paymentMethod").value;
+        if (!method) {
+          alert("Please select a payment method.");
+          return;
         }
 
-        document.body.appendChild(payfastForm);
-        payfastForm.submit();
+        if (method === "eft") {
+          alert("Order placed! Please EFT the total and send proof of payment.");
+          // Show confirmation message here instead of redirect if you want
+        }
+
+        if (method === "payfast") {
+          const payfastForm = document.createElement("form");
+          payfastForm.method = "post";
+          payfastForm.action = "https://sandbox.payfast.co.za/eng/process";
+
+          const fields = {
+            merchant_id: "10041065",
+            merchant_key: "p1aaadaty2wvs",
+            return_url: window.location.origin + "/index.html",
+            cancel_url: window.location.origin + "/cart.html",
+            notify_url: window.location.origin + "/cart.html",
+            amount: orderTotal.toFixed(2), // ✅ now uses calculated total
+            item_name: "Women in Tech Order"
+          };
+
+          for (const key in fields) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = fields[key];
+            payfastForm.appendChild(input);
+          }
+
+          document.body.appendChild(payfastForm);
+          payfastForm.submit();
+        }
       }
-    }
-  </script>
+    </script>
+
 
   <script>
     let speech;
