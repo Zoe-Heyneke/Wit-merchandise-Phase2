@@ -173,14 +173,15 @@ document.addEventListener("DOMContentLoaded", () => {
           <p>Size: ${item.size || "-"}</p>
           <p>Color: ${item.color || "-"}</p>
           <p>Price: R${item.price.toFixed(2)}</p>
-          <div>
+          <div class="quantity-controls">
             <button onclick="decreaseQuantity(${index})">-</button>
             <span>${item.quantity || 1}</span>
             <button onclick="increaseQuantity(${index})">+</button>
           </div>
         </div>
-        <button onclick="removeItem(${index})">Remove</button>
+        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
       `;
+
       cartItemsEl.appendChild(div);
     });
 
