@@ -210,10 +210,27 @@
         profileAddrPreviewEl.innerHTML = `<span class="addr-empty">Could not load profile address. You can manually enter shipping details below.</span>`;
       }
     });
-
-
-
   </script>
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const orderTotalEl = document.getElementById("orderTotal");
+  
+  // Get cart from localStorage
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+  // Calculate total
+  let total = 0;
+  cart.forEach(item => {
+    const qty = item.quantity || 1;
+    total += item.price * qty;
+  });
+  
+  // Display total
+  orderTotalEl.textContent = total.toFixed(2);
+});
+</script>
+
 
   <script>
     // Example: Load total from localStorage or your cart script
