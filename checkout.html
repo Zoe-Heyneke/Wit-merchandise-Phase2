@@ -140,158 +140,200 @@
   <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
-      // Replace with your real keys/IDs
-      const EMAILJS_PUBLIC_KEY = "EbpMVExnFbfQMt_q-"; 
-      const EMAILJS_SERVICE_ID = "service_2t7hn4f"; 
-      const EMAILJS_TEMPLATE_CUSTOMER = "template_05m889k"; 
-      const EMAILJS_TEMPLATE_ADMIN = "template_mv9r9ox"; 
+      // ✅ EmailJS config
+        const EMAILJS_PUBLIC_KEY = "EbpMVExnFbfQMt_q-"; 
+        const EMAILJS_SERVICE_ID = "service_2t7hn4f"; 
+        const EMAILJS_TEMPLATE_CUSTOMER = "template_05m889k"; // Customer order confirmation
+        const EMAILJS_TEMPLATE_ADMIN = "template_mv9r9ox";    // Melissa notification
 
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 
-      function money(n) {
-        return Number(n || 0).toFixed(2);
-      }
-
-      function buildItemsBlock(items = []) {
-        return items.map(it => {
-          const qty = it.quantity || 1;
-          const size = it.size ? ` (${it.size})` : "";
-          const color = it.color ? ` [${it.color}]` : "";
-          const line = (Number(it.price || 0) * qty);
-          return `• ${qty} × ${it.name || 'Item'}${size}${color} — R${money(line)}`;
-        }).join("\n");
-      }
-
-      function buildShippingBlock(s = {}) {
-        const line2 = [s.neighborhood, s.city].filter(Boolean).join(", ");
-        return [
-          s.name || "",
-          s.street || "",
-          line2,
-          s.postalCode || "",
-          s.phone ? `Phone: ${s.phone}` : ""
-        ].filter(Boolean).join("\n");
-      }
-
-      async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod }) {
-        const items_block = buildItemsBlock(items);
-        const shipping_block = buildShippingBlock(shipping);
-
-        const to_email_customer = shipping?.email || "";
-        const to_name_customer = shipping?.name || "Customer";
-
-        const paramsCustomer = {
-          to_email: to_email_customer,
-          to_name: to_name_customer,
-          order_id: orderId,
-          items_block,
-          total: money(total),
-          payment_method: paymentMethod,
-          shipping_block
-        };
-
-        const paramsAdmin = {
-          to_email: "melissa@women-in-tech.org",
-          to_name: "Melissa",
-          order_id: orderId,
-          items_block,
-          total: money(total),
-          payment_method: paymentMethod,
-          shipping_block
-        };
-
-        const sends = [
-          to_email_customer 
-            ? emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, paramsCustomer) 
-            : Promise.resolve(),
-          emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, paramsAdmin)
-        ];
-
-        try {
-          await Promise.allSettled(sends);
-          console.log("Emails sent ✅");
-        } catch (e) {
-          console.warn("EmailJS send error:", e);
+        // Format helpers
+        function money(n) {
+          return Number(n || 0).toFixed(2);
         }
-      }
+
+        function buildItemsBlock(items = []) {
+          return items.map(it => {
+            const qty = it.quantity || 1;
+            const size = it.size ? ` (${it.size})` : "";
+            const color = it.color ? ` [${it.color}]` : "";
+            const line = (Number(it.price || 0) * qty);
+            return `• ${qty} × ${it.name || 'Item'}${size}${color} — R${money(line)}`;
+          }).join("\n");
+        }
+
+        function buildShippingBlock(s = {}) {
+          const line2 = [s.neighborhood, s.city].filter(Boolean).join(", ");
+          return [
+            s.name || "",
+            s.street || "",
+            line2,
+            s.postalCode || "",
+            s.phone ? `Phone: ${s.phone}` : ""
+          ].filter(Boolean).join("\n");
+        }
+
+        // ✅ Send both emails
+        async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod }) {
+          const items_block = buildItemsBlock(items);
+          const shipping_block = buildShippingBlock(shipping);
+
+          const to_email_customer = shipping?.email || "";
+          const to_name_customer = shipping?.name || "Customer";
+
+          // Customer email (goes to buyer)
+          const paramsCustomer = {
+            to_email: to_email_customer,
+            to_name: to_name_customer,
+            order_id: orderId,
+            items_block,
+            total: money(total),
+            payment_method: paymentMethod,
+            shipping_block
+          };
+
+          // Admin email (goes to Melissa)
+          const paramsAdmin = {
+            to_email: "melissa@womenintech.org.za",
+            to_name: "Melissa",
+            order_id: orderId,
+            items_block,
+            total: money(total),
+            payment_method: paymentMethod,
+            shipping_block
+          };
+
+          try {
+            // Send customer email (if email exists)
+            if (to_email_customer) {
+              await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, paramsCustomer);
+              console.log("✅ Customer email sent");
+            }
+
+            // Send admin email
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, paramsAdmin);
+            console.log("✅ Admin email sent");
+          } catch (err) {
+            console.error("❌ EmailJS error:", err);
+          }
+        }
+
     </script>
 
     <script>
-  async function proceedPayment() {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Please sign in first!");
-      window.location.href = "profile.html";
-      return;
-    }
-
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    if (!cartItems.length) {
-      alert("Your cart is empty.");
-      return;
-    }
-
-    // Build shipping object
-    const useProfile = useProfileAddressEl.checked;
-    let shipping = {};
-
-    if (useProfile) {
-      const snap = await db.collection("users").doc(user.uid).get();
-      if (!snap.exists || !snap.data().address) {
-        alert("No saved profile address. Please enter manually.");
+      async function proceedPayment() {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Please sign in first!");
+        window.location.href = "profile.html";
         return;
       }
-      const data = snap.data();
-      shipping = {
-        name: data.name || "",
-        email: data.email || user.email || "",
-        phone: data.phone || "",
-        ...data.address
-      };
-    } else {
-      shipping = {
-        name: document.getElementById("shipName").value.trim(),
-        email: document.getElementById("shipEmail").value.trim(),
-        phone: document.getElementById("shipPhone").value.trim(),
-        street: document.getElementById("shipStreet").value.trim(),
-        buildingType: document.getElementById("shipBuilding").value.trim(),
-        neighborhood: document.getElementById("shipNeighborhood").value.trim(),
-        city: document.getElementById("shipCity").value.trim(),
-        postalCode: document.getElementById("shipPostal").value.trim(),
-      };
+
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      if (!cartItems.length) {
+        alert("Your cart is empty.");
+        return;
+      }
+
+      // Build shipping
+      const useProfile = useProfileAddressEl.checked;
+      let shipping = {};
+
+      if (useProfile) {
+        const snap = await db.collection("users").doc(user.uid).get();
+        if (!snap.exists || !snap.data().address) {
+          alert("No saved profile address. Please enter manually.");
+          return;
+        }
+        const data = snap.data();
+        shipping = {
+          name: data.name || "",
+          email: data.email || user.email || "",
+          phone: data.phone || "",
+          ...data.address
+        };
+      } else {
+        shipping = {
+          name: document.getElementById("shipName").value.trim(),
+          email: document.getElementById("shipEmail").value.trim(),
+          phone: document.getElementById("shipPhone").value.trim(),
+          street: document.getElementById("shipStreet").value.trim(),
+          buildingType: document.getElementById("shipBuilding").value.trim(),
+          neighborhood: document.getElementById("shipNeighborhood").value.trim(),
+          city: document.getElementById("shipCity").value.trim(),
+          postalCode: document.getElementById("shipPostal").value.trim(),
+        };
+      }
+
+      const paymentMethod = document.getElementById("paymentMethod").value;
+      if (!paymentMethod) {
+        alert("Please select a payment method.");
+        return;
+      }
+
+      const total = cartItems.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+      try {
+        // Save order to Firestore
+        const docRef = await db.collection("orders").add({
+          userId: user.uid,
+          items: cartItems,
+          total,
+          paymentMethod,
+          shipping,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // Send emails
+          await sendOrderEmails({
+          orderId: docRef.id,
+          shipping,
+          items: cartItems,
+          total,
+          paymentMethod
+        }); 
+
+        // Handle payment method
+        if (paymentMethod === "eft") {
+          alert("Order placed! Please EFT the total and send proof of payment. We've emailed you the details.");
+          localStorage.removeItem("cart");
+          window.location.href = "products.html";
+        }
+
+        if (paymentMethod === "payfast") {
+          const payfastForm = document.createElement("form");
+          payfastForm.method = "post";
+          payfastForm.action = "https://sandbox.payfast.co.za/eng/process";
+
+          const fields = {
+            merchant_id: "10041065",
+            merchant_key: "p1aaadaty2wvs",
+            return_url: window.location.origin + "/index.html",
+            cancel_url: window.location.origin + "/cart.html",
+            notify_url: window.location.origin + "/cart.html",
+            amount: total.toFixed(2),
+            item_name: "Women in Tech Order"
+          };
+
+          for (const key in fields) {
+            const input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = fields[key];
+            payfastForm.appendChild(input);
+          }
+
+          document.body.appendChild(payfastForm);
+          payfastForm.submit();
+        }
+
+      } catch (err) {
+        console.error(err);
+        alert("Something went wrong. Try again.");
+      }
     }
 
-    const paymentMethod = document.getElementById("paymentMethod").value || "unspecified";
-    const total = cartItems.reduce((sum, i) => sum + (i.price * i.quantity), 0);
-
-    try {
-      const docRef = await db.collection("orders").add({
-        userId: user.uid,
-        items: cartItems,
-        total,
-        paymentMethod,
-        shipping,
-        createdAt: new Date()
-      });
-
-      // Send emails
-      await sendOrderEmails({
-        orderId: docRef.id,
-        shipping,
-        items: cartItems,
-        total,
-        paymentMethod
-      });
-
-      alert("Order placed successfully! We've emailed you a summary.");
-      localStorage.removeItem("cart");
-      window.location.href = "products.html";
-
-    } catch (err) {
-      console.error(err);
-      alert("Something went wrong. Try again.");
-    }
-  }
   </script>
 
 
@@ -403,6 +445,7 @@
         }
       }
 
+      /*
       function proceedPayment() {
         const method = document.getElementById("paymentMethod").value;
         if (!method) {
@@ -442,6 +485,7 @@
           payfastForm.submit();
         }
       }
+        */
     </script>
 
 
