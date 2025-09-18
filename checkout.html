@@ -142,12 +142,13 @@
     <script>
       // ✅ EmailJS config
         const EMAILJS_PUBLIC_KEY = "EbpMVExnFbfQMt_q-"; 
-        const EMAILJS_SERVICE_ID = "service_2t7hn4f"; 
+        const EMAILJS_SERVICE_ID = "service_99b34q9"; 
         const EMAILJS_TEMPLATE_CUSTOMER = "template_05m889k"; // Customer order confirmation
         const EMAILJS_TEMPLATE_ADMIN = "template_mv9r9ox";    // Melissa notification
 
-        emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+        emailjs.init("EbpMVExnFbfQMt_q-");
 
+      
         // Format helpers
         function money(n) {
           return Number(n || 0).toFixed(2);
@@ -175,49 +176,46 @@
         }
 
         // ✅ Send both emails
-        async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod }) {
-          const items_block = buildItemsBlock(items);
-          const shipping_block = buildShippingBlock(shipping);
+          async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod }) {
+            const items_block = buildItemsBlock(items);
+            const shipping_block = buildShippingBlock(shipping);
 
-          const to_email_customer = shipping?.email || "";
-          const to_name_customer = shipping?.name || "Customer";
+            // Ensure we have a valid customer email
+             const to_email_customer = shipping?.email || user?.email;
+             const to_name_customer = shipping?.name || user?.displayName || "Customer";
+            try {
+              // Customer email (goes to buyer)
+              if (to_email_customer) {
+                await emailjs.send("service_99b34q9", "template_05m889k", {
+                  to_email: to_email_customer,
+                  to_name: to_name_customer,
+                  order_id: orderId,
+                  items_block,
+                  total: money(total),
+                  payment_method: paymentMethod,
+                  shipping_block
+                });
+                console.log("✅ Customer email sent");
+              }
 
-          // Customer email (goes to buyer)
-          const paramsCustomer = {
-            to_email: to_email_customer,
-            to_name: to_name_customer,
-            order_id: orderId,
-            items_block,
-            total: money(total),
-            payment_method: paymentMethod,
-            shipping_block
-          };
+              // Admin email (goes to Melissa)
+              await emailjs.send("service_99b34q9", "template_mv9r9ox", {
+                to_email: "melissa@womenintech.org.za",
+                to_name: "Melissa",
+                order_id: orderId,
+                items_block,
+                total: money(total),
+                payment_method: paymentMethod,
+                shipping_block
+              });
+              console.log("✅ Admin email sent");
 
-          // Admin email (goes to Melissa)
-          const paramsAdmin = {
-            to_email: "melissa@womenintech.org.za",
-            to_name: "Melissa",
-            order_id: orderId,
-            items_block,
-            total: money(total),
-            payment_method: paymentMethod,
-            shipping_block
-          };
-
-          try {
-            // Send customer email (if email exists)
-            if (to_email_customer) {
-              await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_CUSTOMER, paramsCustomer);
-              console.log("✅ Customer email sent");
+            } catch (err) {
+              console.error("❌ EmailJS error:", err);
+              alert("We couldn’t send the order emails. Please try again.");
             }
-
-            // Send admin email
-            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ADMIN, paramsAdmin);
-            console.log("✅ Admin email sent");
-          } catch (err) {
-            console.error("❌ EmailJS error:", err);
           }
-        }
+
 
     </script>
 
@@ -236,7 +234,7 @@
         return;
       }
 
-      // Build shipping
+      // Determine shipping info
       const useProfile = useProfileAddressEl.checked;
       let shipping = {};
 
@@ -248,15 +246,15 @@
         }
         const data = snap.data();
         shipping = {
-          name: data.name || "",
+          name: data.name || user.displayName || "Customer",
           email: data.email || user.email || "",
           phone: data.phone || "",
           ...data.address
         };
       } else {
         shipping = {
-          name: document.getElementById("shipName").value.trim(),
-          email: document.getElementById("shipEmail").value.trim(),
+          name: document.getElementById("shipName").value.trim() || user.displayName || "Customer",
+          email: document.getElementById("shipEmail").value.trim() || user.email || "",
           phone: document.getElementById("shipPhone").value.trim(),
           street: document.getElementById("shipStreet").value.trim(),
           buildingType: document.getElementById("shipBuilding").value.trim(),
@@ -286,21 +284,24 @@
         });
 
         // Send emails
-          await sendOrderEmails({
+        await sendOrderEmails({
           orderId: docRef.id,
           shipping,
           items: cartItems,
           total,
-          paymentMethod
-        }); 
+          paymentMethod,
+          user
+        });
 
-        // Handle payment method
+        // Handle EFT
         if (paymentMethod === "eft") {
-          alert("Order placed! Please EFT the total and send proof of payment. We've emailed you the details.");
+          alert("✅ Order placed! Please EFT the total and send proof of payment. We've emailed you the details.");
           localStorage.removeItem("cart");
           window.location.href = "products.html";
+          return;
         }
 
+        // Handle PayFast
         if (paymentMethod === "payfast") {
           const payfastForm = document.createElement("form");
           payfastForm.method = "post";
@@ -329,10 +330,11 @@
         }
 
       } catch (err) {
-        console.error(err);
-        alert("Something went wrong. Try again.");
+        console.error("❌ Error in proceedPayment:", err);
+        alert("Something went wrong. Please try again.");
       }
     }
+
 
   </script>
 
