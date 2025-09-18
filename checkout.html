@@ -176,7 +176,7 @@
         }
 
         // ✅ Send both emails
-          async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod }) {
+          async function sendOrderEmails({ orderId, shipping, items, total, paymentMethod, user }) {
             const items_block = buildItemsBlock(items);
             const shipping_block = buildShippingBlock(shipping);
 
@@ -198,9 +198,10 @@
                 console.log("✅ Customer email sent");
               }
 
+
               // Admin email (goes to Melissa)
               await emailjs.send("service_99b34q9", "template_mv9r9ox", {
-                to_email: "melissa@womenintech.org.za",
+                to_email: "melissa@women-in-tech.org",
                 to_name: "Melissa",
                 order_id: orderId,
                 items_block,
